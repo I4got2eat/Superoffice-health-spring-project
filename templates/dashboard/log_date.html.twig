@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log Daily Habits - Health Spring{% endblock %}
+
+{% block body %}
+<div class="container my-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">Log Daily Habits - {{ date|date('F j, Y') }}</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="{{ path('app_dashboard_log_date', {'date': date|date('Y-m-d')}) }}">
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" name="hydration_done" id="hydration_done" 
+                                   value="1" {{ dailyLog.hydrationDone ? 'checked' : '' }}>
+                            <label class="form-check-label" for="hydration_done">
+                                💧 Hydration
+                            </label>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" name="sleep_done" id="sleep_done" 
+                                   value="1" {{ dailyLog.sleepDone ? 'checked' : '' }}>
+                            <label class="form-check-label" for="sleep_done">
+                                😴 Sleep
+                            </label>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" name="steps_done" id="steps_done" 
+                                   value="1" {{ dailyLog.stepsDone ? 'checked' : '' }}>
+                            <label class="form-check-label" for="steps_done">
+                                🚶 Steps
+                            </label>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" name="nutrition_done" id="nutrition_done" 
+                                   value="1" {{ dailyLog.nutritionDone ? 'checked' : '' }}>
+                            <label class="form-check-label" for="nutrition_done">
+                                🥗 Nutrition
+                            </label>
+                        </div>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="{{ path('app_dashboard') }}" class="btn btn-secondary me-md-2">Cancel</a>
+                            <button type="submit" class="btn btn-super-action">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

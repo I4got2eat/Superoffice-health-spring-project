@@ -1,0 +1,222 @@
+// SuperOffice theme – override Bootstrap via variables first
+@import "superoffice_variables";
+
+// Import Bootstrap with overridden variables
+@import "~bootstrap/scss/bootstrap";
+
+// Global base styles
+body {
+    font-family: $font-family-sans-serif;
+    background-color: $so-bg-neutral;
+    color: $so-text-dark;
+}
+
+// Layout shell for authenticated app (sidebar + main content)
+.so-app {
+    min-height: 100vh;
+    display: flex;
+}
+
+.so-sidebar {
+    width: 260px;
+    background-color: $so-brand-primary;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem 1.25rem;
+}
+
+.so-sidebar-logo {
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: #ffffff;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+.so-sidebar-nav {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: auto;
+}
+
+.so-sidebar-nav li + li {
+    margin-top: 0.5rem;
+}
+
+.so-sidebar-link {
+    display: flex;
+    align-items: center;
+    padding: 0.6rem 0.9rem;
+    border-radius: 999px;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    opacity: 0.9;
+}
+
+.so-sidebar-link:hover {
+    opacity: 1;
+    background-color: rgba(255, 255, 255, 0.12);
+}
+
+.so-sidebar-link.so-active {
+    background-color: rgba(255, 255, 255, 0.16);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.so-sidebar-footer {
+    margin-top: 2rem;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.so-sidebar-user {
+    font-weight: 600;
+}
+
+.so-main {
+    flex: 1;
+    background-color: $so-bg-neutral;
+    padding: 2rem 2.5rem;
+}
+
+@media (max-width: 991.98px) {
+    .so-app {
+        flex-direction: column;
+    }
+
+    .so-sidebar {
+        width: 100%;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem 1.5rem;
+    }
+
+    .so-sidebar-nav {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 0;
+    }
+
+    .so-sidebar-footer {
+        display: none;
+    }
+}
+
+// Public landing hero
+.so-landing-hero {
+    background-color: $so-brand-primary;
+    color: #ffffff;
+}
+
+.so-landing-hero h1 {
+    color: #ffffff;
+}
+
+.so-landing-hero p.lead {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+// Shared logo styling (sidebar + public header)
+.so-logo-img {
+    max-width: 220px;
+    height: auto;
+    display: block;
+}
+
+// Public header wrapper on non-auth pages
+.so-public-header {
+    background-color: $so-brand-primary;
+}
+
+// Cards & sections
+.card {
+    border-radius: $card-border-radius;
+    box-shadow: $card-box-shadow;
+}
+
+// CTA buttons – coral pill-shaped primary actions
+.btn-super-action {
+    background-color: $so-accent;
+    border-color: $so-accent;
+    color: #ffffff;
+    border-radius: 50px;
+    padding-inline: 1.75rem;
+    padding-block: 0.55rem;
+}
+
+.btn-super-action:hover,
+.btn-super-action:focus {
+    background-color: darken($so-accent, 4%);
+    border-color: darken($so-accent, 6%);
+    color: #ffffff;
+}
+
+.btn-secondary {
+    background-color: transparent;
+    border-color: $so-brand-primary;
+    color: $so-brand-primary;
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus {
+    background-color: rgba($so-brand-primary, 0.06);
+    border-color: $so-brand-primary;
+    color: $so-brand-primary;
+}
+
+// Forms – checkboxes in brand green
+.form-check-input:checked {
+    background-color: $so-brand-primary;
+    border-color: $so-brand-primary;
+}
+
+.form-check-input:focus {
+    box-shadow: 0 0 0 0.2rem rgba($so-brand-primary, 0.25);
+    border-color: $so-brand-primary;
+}
+
+// Dashboard calendar specifics
+.calendar-table {
+    background-color: $so-surface;
+    border-radius: $card-border-radius;
+    overflow: hidden;
+}
+
+.calendar-table th {
+    background-color: lighten($so-bg-neutral, 4%);
+    color: $so-text-dark;
+}
+
+.calendar-table td {
+    border-color: rgba(0, 0, 0, 0.03);
+}
+
+// Override contextual colors only within the calendar
+.calendar-table .bg-success {
+    background-color: $so-brand-primary !important; // full completion
+    color: #ffffff !important;
+}
+
+.calendar-table .bg-warning {
+    background-color: $so-muted-orange !important; // partial completion
+    color: $so-text-dark !important;
+}
+
+.calendar-table .bg-secondary {
+    background-color: rgba(0, 0, 0, 0.02) !important;
+    color: $so-text-muted !important;
+}
+
+.calendar-day:hover {
+    opacity: 0.92;
+    transform: scale(1.03);
+    transition: all 0.2s ease;
+}
+

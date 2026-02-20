@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Login - Health Spring{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow mt-5">
+                <div class="card-body p-5">
+                    <h2 class="card-title text-center mb-4">Health Spring</h2>
+                    <p class="text-center text-muted mb-4">Enter your name to join the challenge</p>
+
+                    {% if error %}
+                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    {% endif %}
+
+                    <form method="post" action="{{ path('app_login') }}">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Enter your Name</label>
+                            <input type="text" class="form-control" id="name" name="name" required autofocus>
+                        </div>
+                        <button type="submit" class="btn btn-super-action w-100">Login</button>
+                    </form>
+
+                    <div class="text-center mt-4">
+                        <a href="{{ path('app_home') }}" class="text-muted">Back to Home</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

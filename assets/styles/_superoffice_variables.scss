@@ -1,0 +1,50 @@
+// SuperOffice brand design tokens and Bootstrap variable overrides
+
+// Brand palette (updated to latest SuperOffice tokens)
+$so-brand-primary: #134E3F; // Deep forest green
+$so-accent: #E8937E;        // Coral action color (CTA only)
+$so-bg-neutral: #FAF9F6;    // Warm beige app background
+$so-surface: #FFFFFF;       // Card / surface white
+$so-text-dark: #212529;     // Dark charcoal text
+$so-text-muted: #6c757d;    // Bootstrap gray for muted text
+
+// Secondary / chart colors
+$so-muted-green: #7FA698;
+$so-muted-orange: #F2C2A6;
+
+// Map to Bootstrap theme colors
+// Primary is the brand forest green
+$primary: $so-brand-primary;
+// Use primary green for success as well
+$success: $so-brand-primary;
+$secondary: $so-text-muted;
+
+// Global colors
+$body-bg: $so-bg-neutral;
+$body-color: $so-text-dark;
+
+// Typography
+$font-family-sans-serif: "Inter", "Helvetica Neue", Arial, sans-serif;
+$headings-font-weight: 700;
+$headings-color: $so-brand-primary;
+
+// Radii & shapes
+// 12px ≈ 0.75rem
+$border-radius: 0.75rem;        // general radius ~12px
+$border-radius-sm: 0.5rem;
+$border-radius-lg: 0.75rem;
+$card-border-radius: 0.75rem;
+$alert-border-radius: 0.75rem;
+
+// Buttons – default Bootstrap buttons can stay rounded but not pill;
+// CTA pill style is handled via .btn-super-action.
+
+$btn-padding-y: 0.55rem;
+$btn-padding-x: 1.5rem;
+
+// Cards – soft, warm shadow and clean surfaces
+$card-bg: $so-surface;
+$card-border-color: transparent;
+$card-border-width: 0;
+$card-box-shadow: 0 4px 24px rgba(19, 78, 63, 0.08);
+

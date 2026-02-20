@@ -1,0 +1,167 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Health Spring — 3 Month Challenge{% endblock %}
+
+{% block body %}
+<section class="so-landing-hero py-5">
+    <div class="container my-4">
+        {# Hero Section #}
+        <div class="text-center mb-5">
+            <h1 class="display-4 fw-bold mb-3">Health Spring</h1>
+            <h1 class="lead h3 mb-3">3 Month Challenge</h1>
+            <p class="lead mb-4">March 1st - May 31st, 2026</p>
+            <a href="{{ path('app_login') }}" class="btn btn-super-action btn-lg mt-2">Join Challenge / Login</a>
+        </div>
+    </div>
+</section>
+
+<div class="container my-5">
+    {# Educational Cards #}
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm" data-bs-toggle="modal" data-bs-target="#hydrationModal" style="cursor: pointer;">
+                <div class="card-body text-center">
+                    <div class="display-1 mb-3">💧</div>
+                    <h5 class="card-title">Hydration</h5>
+                    <p class="card-text text-muted">Stay hydrated throughout the day</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm" data-bs-toggle="modal" data-bs-target="#sleepModal" style="cursor: pointer;">
+                <div class="card-body text-center">
+                    <div class="display-1 mb-3">😴</div>
+                    <h5 class="card-title">Sleep</h5>
+                    <p class="card-text text-muted">Get quality rest every night</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm" data-bs-toggle="modal" data-bs-target="#stepsModal" style="cursor: pointer;">
+                <div class="card-body text-center">
+                    <div class="display-1 mb-3">🚶</div>
+                    <h5 class="card-title">Steps</h5>
+                    <p class="card-text text-muted">Reach your daily step goal</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm" data-bs-toggle="modal" data-bs-target="#activityModal" style="cursor: pointer;">
+                <div class="card-body text-center">
+                    <div class="display-1 mb-3">🏃</div>
+                    <h5 class="card-title">Physical Activity</h5>
+                    <p class="card-text text-muted">150 minutes per week</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm" data-bs-toggle="modal" data-bs-target="#nutritionModal" style="cursor: pointer;">
+                <div class="card-body text-center">
+                    <div class="display-1 mb-3">🥗</div>
+                    <h5 class="card-title">Nutrition</h5>
+                    <p class="card-text text-muted">Eat balanced, nutritious meals</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm" data-bs-toggle="modal" data-bs-target="#socialModal" style="cursor: pointer;">
+                <div class="card-body text-center">
+                    <div class="display-1 mb-3">👥</div>
+                    <h5 class="card-title">Social Connection</h5>
+                    <p class="card-text text-muted">4 meaningful interactions per week</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{# Modals #}
+<div class="modal fade" id="hydrationModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">💧 Hydration</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Staying properly hydrated is essential for maintaining optimal health. Water helps regulate body temperature, supports digestion, and keeps your skin healthy. Aim to drink at least 8 glasses of water throughout the day to stay hydrated and energized.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="sleepModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">😴 Sleep</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Quality sleep is crucial for physical and mental well-being. Getting 7-9 hours of restful sleep each night helps improve memory, boost immune function, and maintain emotional balance. Create a consistent sleep schedule and a relaxing bedtime routine to enhance your sleep quality.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="stepsModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">🚶 Steps</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Walking is one of the simplest and most effective forms of exercise. Aim for 10,000 steps per day to improve cardiovascular health, strengthen muscles, and boost your mood. Every step counts - take the stairs, park farther away, or take a walk during your lunch break!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="activityModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">🏃 Physical Activity</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Regular physical activity is key to maintaining a healthy lifestyle. Aim for at least 150 minutes of moderate-intensity exercise per week. This can include activities like brisk walking, cycling, swimming, or dancing. Regular exercise helps reduce the risk of chronic diseases and improves mental health.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="nutritionModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">🥗 Nutrition</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Eating a balanced, nutritious diet provides your body with the essential nutrients it needs to function properly. Focus on whole foods, including plenty of fruits, vegetables, lean proteins, and whole grains. A healthy diet supports energy levels, immune function, and overall well-being.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="socialModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">👥 Social Connection</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Meaningful social connections are vital for mental health and happiness. Aim for at least 4 meaningful social interactions per week - whether it's a coffee with a colleague, a phone call with a friend, or participating in a group activity. Strong social bonds reduce stress and increase feelings of belonging.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

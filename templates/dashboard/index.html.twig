@@ -1,0 +1,178 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard - Health Spring{% endblock %}
+
+{% block body %}
+<div class="container my-4">
+    {# Header Stats #}
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title text-muted">Total Score</h5>
+                    <h2 class="display-4 fw-bold text-primary">{{ totalScore }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title text-muted">Current Week Score</h5>
+                    <h2 class="display-4 fw-bold text-info">{{ currentWeekScore }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title text-muted">Today's Score</h5>
+                    <h2 class="display-4 fw-bold text-success">{{ todayScore }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Weekly Tracker Section #}
+    <div class="card mb-4">
+        <div class="card-header">
+            <h4 class="mb-0">Weekly Tracker</h4>
+        </div>
+        <div class="card-body">
+            <form method="post" action="{{ path('app_dashboard_weekly_log') }}">
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" name="activity_done" id="activity_done" 
+                           value="1" {{ currentWeekLog.activityDone ? 'checked' : '' }}>
+                    <label class="form-check-label" for="activity_done">
+                        150 min Activity
+                    </label>
+                </div>
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" name="social_done" id="social_done" 
+                           value="1" {{ currentWeekLog.socialDone ? 'checked' : '' }}>
+                    <label class="form-check-label" for="social_done">
+                        4 Social Interactions
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-super-action">Save Weekly Log</button>
+            </form>
+        </div>
+    </div>
+
+    {# 3-Month Calendar Section #}
+    <div class="card">
+        <div class="card-header">
+            <h4 class="mb-0">Challenge Calendar</h4>
+        </div>
+        <div class="card-body">
+            {% for monthData in months %}
+                <div class="mb-5">
+                    <h5 class="mb-3">{{ monthData.name }} {{ monthData.year }}</h5>
+                    {% set firstDay = date(monthData.year ~ '-' ~ monthData.month ~ '-01') %}
+                    {% set lastDay = firstDay|date_modify('last day of this month') %}
+                    {% set startDate = challengeService.startDateProperty %}
+                    {% set endDate = challengeService.endDateProperty %}
+                    
+                    <table class="table table-bordered calendar-table">
+                        <thead>
+                            <tr>
+                                <th>Mon</th>
+                                <th>Tue</th>
+                                <th>Wed</th>
+                                <th>Thu</th>
+                                <th>Fri</th>
+                                <th>Sat</th>
+                                <th>Sun</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {# Twig has no "while": compute a fixed week grid and loop #}
+                            {% set gridStart = firstDay|date_modify('monday this week') %}
+                            {% set gridEnd = lastDay|date_modify('sunday this week') %}
+                            {% set totalDays = ((gridEnd|date('U') - gridStart|date('U')) / 86400)|round(0, 'ceil') + 1 %}
+                            {% set weeks = (totalDays / 7)|round(0, 'ceil') %}
+                            {% set weeks = weeks < 1 ? 1 : weeks %}
+                            {% set gridStartStr = gridStart|date('Y-m-d') %}
+
+                            {% for w in 0..(weeks - 1) %}
+                                <tr>
+                                    {% for day in 0..6 %}
+                                        {% set offsetDays = (w * 7) + day %}
+                                        {% set dayDate = date(gridStartStr)|date_modify('+' ~ offsetDays ~ ' days') %}
+                                        {% set dayKey = dayDate|date('Y-m-d') %}
+                                        {% set isInMonth = dayDate|date('n') == monthData.month %}
+                                        {% set isInChallenge = dayDate >= startDate and dayDate <= endDate %}
+                                        
+                                        {% if isInMonth and isInChallenge %}
+                                            {% set log = dailyLogsMap[dayKey] ?? null %}
+                                            {% if log %}
+                                                {% set points = log.points %}
+                                                {% if points == 4 %}
+                                                    {% set cellClass = 'bg-success text-white' %}
+                                                {% elseif points >= 1 %}
+                                                    {% set cellClass = 'bg-warning' %}
+                                                {% else %}
+                                                    {% set cellClass = 'bg-secondary text-white' %}
+                                                {% endif %}
+                                            {% else %}
+                                                {% set cellClass = 'bg-secondary text-white' %}
+                                                {% set points = 0 %}
+                                            {% endif %}
+                                            
+                                            <td class="{{ cellClass }} calendar-day" 
+                                                data-date="{{ dayKey }}"
+                                                style="cursor: pointer; min-width: 80px; height: 60px; vertical-align: middle; text-align: center;">
+                                                <div>{{ dayDate|date('j') }}</div>
+                                                <small>{{ points }}/4</small>
+                                            </td>
+                                        {% elseif isInMonth %}
+                                            <td class="text-muted" style="min-width: 80px; height: 60px; vertical-align: middle; text-align: center;">
+                                                {{ dayDate|date('j') }}
+                                            </td>
+                                        {% else %}
+                                            <td style="min-width: 80px; height: 60px;"></td>
+                                        {% endif %}
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{# Legend #}
+<div class="container mb-4">
+    <div class="card">
+        <div class="card-body">
+            <h6>Legend:</h6>
+            <span class="badge bg-secondary me-2">Gray</span> 0 tasks done
+            <span class="badge bg-warning me-2">Orange</span> 1-3 tasks done
+            <span class="badge bg-success me-2">Green</span> All 4 tasks done
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.calendar-day').forEach(function(cell) {
+        cell.addEventListener('click', function() {
+            const date = this.getAttribute('data-date');
+            window.location.href = '{{ path('app_dashboard_log_date', {'date': 'PLACEHOLDER'}) }}'.replace('PLACEHOLDER', date);
+        });
+    });
+});
+</script>
+
+<style>
+.calendar-table {
+    width: 100%;
+}
+.calendar-day:hover {
+    opacity: 0.8;
+    transform: scale(1.05);
+    transition: all 0.2s;
+}
+</style>
+{% endblock %}
