@@ -15,28 +15,47 @@
         <div class="{{ app.user ? 'so-app' : '' }}">
             {% if app.user %}
                 <aside class="so-sidebar">
-                    <a href="{{ path('app_dashboard') }}" class="so-sidebar-logo">
-                        <img src="{{ asset('images/health-spring-logo.png') }}"
-                             alt="SuperOffice Health Spring"
-                             class="so-logo-img">
-                    </a>
-                    <ul class="so-sidebar-nav">
-                        <li>
-                            <a href="{{ path('app_dashboard') }}"
-                               class="so-sidebar-link {{ currentRoute starts with 'app_dashboard' ? 'so-active' }}">
-                                Dashboard
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ path('app_leaderboard') }}"
-                               class="so-sidebar-link {{ currentRoute == 'app_leaderboard' ? 'so-active' }}">
-                                Leaderboard
-                            </a>
-                        </li>
-                    </ul>
-                    <div class="so-sidebar-footer">
-                        <div class="so-sidebar-user">Hello, {{ app.user.name }}!</div>
-                        <a href="{{ path('app_logout') }}" class="text-white-50 text-decoration-none">Logout</a>
+                    <div class="so-sidebar-top">
+                        <a href="{{ path('app_dashboard') }}" class="so-sidebar-logo">
+                            <img src="{{ asset('images/health-spring-logo.png') }}"
+                                 alt="SuperOffice Health Spring"
+                                 class="so-logo-img">
+                        </a>
+                        <button class="so-sidebar-toggle d-lg-none"
+                                type="button"
+                                aria-label="Toggle navigation"
+                                aria-expanded="false">
+                            <span></span>
+                            <span></span>
+                        </button>
+                    </div>
+                    <div class="so-sidebar-nav-wrapper">
+                        <ul class="so-sidebar-nav">
+                            <li>
+                                <a href="{{ path('app_dashboard') }}"
+                                   class="so-sidebar-link {{ currentRoute starts with 'app_dashboard' ? 'so-active' }}">
+                                    Dashboard
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ path('app_leaderboard') }}"
+                                   class="so-sidebar-link {{ currentRoute == 'app_leaderboard' ? 'so-active' }}">
+                                    Leaderboard
+                                </a>
+                            </li>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <li>
+                                    <a href="{{ path('admin_users') }}"
+                                       class="so-sidebar-link {{ currentRoute starts with 'admin_' ? 'so-active' }}">
+                                        Admin
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                        <div class="so-sidebar-footer">
+                            <div class="so-sidebar-user">Hello, {{ app.user.name }}!</div>
+                            <a href="{{ path('app_logout') }}" class="so-sidebar-logout-link">Logout</a>
+                        </div>
                     </div>
                 </aside>
             {% endif %}
@@ -60,6 +79,22 @@
             {{ encore_entry_script_tags('app') }}
             {# Bootstrap 5 JS CDN #}
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const toggle = document.querySelector('.so-sidebar-toggle');
+                    const navWrapper = document.querySelector('.so-sidebar-nav-wrapper');
+
+                    if (!toggle || !navWrapper) {
+                        return;
+                    }
+
+                    toggle.addEventListener('click', function () {
+                        const isOpen = navWrapper.classList.toggle('is-open');
+                        toggle.classList.toggle('is-open', isOpen);
+                        toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                    });
+                });
+            </script>
         {% endblock %}
     </body>
 </html>

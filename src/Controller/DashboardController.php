@@ -18,6 +18,7 @@ class DashboardController extends AbstractController
 {
     #[Route('/dashboard', name: 'app_dashboard')]
     public function index(
+        Request $request,
         DailyLogRepository $dailyLogRepository,
         WeeklyLogRepository $weeklyLogRepository,
         UserRepository $userRepository,
@@ -43,8 +44,35 @@ class DashboardController extends AbstractController
         $endDate = $challengeService->getEndDate();
         $dailyLogsMap = $dailyLogRepository->findByUserAsDateMap($user, $startDate, $endDate);
 
-        // Get challenge months
+        // Get challenge months and enrich with keys like 2026-03
         $months = $challengeService->getChallengeMonths();
+        foreach ($months as &$month) {
+            $month['key'] = sprintf('%04d-%02d', $month['year'], $month['month']);
+        }
+        unset($month);
+
+        // Determine which month to show on the calendar
+        $selectedKey = $request->query->get('month');
+
+        // Default to current month (clamped to challenge range)
+        if (!$selectedKey) {
+            $today = new \DateTimeImmutable('today');
+            $todayKey = $today->format('Y-m');
+            $selectedKey = $todayKey;
+        }
+
+        // Find index of selected month in the challenge months
+        $selectedIndex = 0;
+        foreach ($months as $idx => $month) {
+            if ($month['key'] === $selectedKey) {
+                $selectedIndex = $idx;
+                break;
+            }
+        }
+
+        $selectedMonth = $months[$selectedIndex];
+        $prevMonth = $selectedIndex > 0 ? $months[$selectedIndex - 1] : null;
+        $nextMonth = $selectedIndex < \count($months) - 1 ? $months[$selectedIndex + 1] : null;
 
         return $this->render('dashboard/index.html.twig', [
             'totalScore' => $totalScore,
@@ -53,6 +81,9 @@ class DashboardController extends AbstractController
             'currentWeekLog' => $currentWeekLog,
             'dailyLogsMap' => $dailyLogsMap,
             'months' => $months,
+            'selectedMonth' => $selectedMonth,
+            'prevMonth' => $prevMonth,
+            'nextMonth' => $nextMonth,
             'challengeService' => $challengeService,
         ]);
     }
@@ -69,9 +100,22 @@ class DashboardController extends AbstractController
         }
 
         $weeklyLog = $weeklyLogRepository->getOrCreateForCurrentWeek($user);
-        
-        $weeklyLog->setActivityDone($request->request->getBoolean('activity_done', false));
-        $weeklyLog->setSocialDone($request->request->getBoolean('social_done', false));
+
+        $requestedActivity = $request->request->getBoolean('activity_done', false);
+        $requestedSocial = $request->request->getBoolean('social_done', false);
+
+        $initialActivity = $weeklyLog->isActivityDone();
+        $initialSocial = $weeklyLog->isSocialDone();
+
+        // Normal users can only move from not done -> done (never undo),
+        // admins can freely toggle in the admin interface instead.
+        if ($this->isGranted('ROLE_ADMIN')) {
+            $weeklyLog->setActivityDone($requestedActivity);
+            $weeklyLog->setSocialDone($requestedSocial);
+        } else {
+            $weeklyLog->setActivityDone($initialActivity || $requestedActivity);
+            $weeklyLog->setSocialDone($initialSocial || $requestedSocial);
+        }
 
         $entityManager->flush();
 

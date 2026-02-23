@@ -9,7 +9,7 @@
             <div class="card shadow mt-5">
                 <div class="card-body p-5">
                     <h2 class="card-title text-center mb-4">Health Spring</h2>
-                    <p class="text-center text-muted mb-4">Enter your name to join the challenge</p>
+                    <p class="text-center text-muted mb-4">Sign in with your SuperOffice work email and date of birth.</p>
 
                     {% if error %}
                         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -17,9 +17,46 @@
 
                     <form method="post" action="{{ path('app_login') }}">
                         <div class="mb-3">
-                            <label for="name" class="form-label">Enter your Name</label>
-                            <input type="text" class="form-control" id="name" name="name" required autofocus>
+                            <label for="email" class="form-label">Work email</label>
+                            <input
+                                type="email"
+                                class="form-control"
+                                id="email"
+                                name="email"
+                                required
+                                autofocus
+                                inputmode="email"
+                                pattern=".+@superoffice\.com$"
+                                placeholder="you@superoffice.com"
+                            >
+                            <div class="form-text">
+                                Use your SuperOffice work email (must end with <strong>@superoffice.com</strong>).
+                            </div>
                         </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password (date of birth)</label>
+                            <div class="input-group">
+                                <input
+                                    type="password"
+                                    class="form-control"
+                                    id="password"
+                                    name="password"
+                                    required
+                                    inputmode="numeric"
+                                    pattern="\d{4}/\d{2}/\d{2}"
+                                    placeholder="1999/02/24"
+                                >
+                                <button type="button" class="btn btn-outline-secondary" id="toggle-password">
+                                    Show
+                                </button>
+                            </div>
+                            <div class="form-text">
+                                Use your date of birth in the exact format <strong>YYYY/MM/DD</strong>,
+                                numbers and slashes only. Example: <code>1999/02/24</code>.
+                            </div>
+                        </div>
+
                         <button type="submit" class="btn btn-super-action w-100">Login</button>
                     </form>
 
@@ -31,4 +68,20 @@
         </div>
     </div>
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const passwordInput = document.getElementById('password');
+    const toggleButton = document.getElementById('toggle-password');
+
+    if (!passwordInput || !toggleButton) {
+        return;
+    }
+
+    toggleButton.addEventListener('click', function () {
+        const isHidden = passwordInput.type === 'password';
+        passwordInput.type = isHidden ? 'text' : 'password';
+        toggleButton.textContent = isHidden ? 'Hide' : 'Show';
+    });
+});
+</script>
 {% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin – Users{% endblock %}
+
+{% block body %}
+<div class="container my-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="mb-0">Users</h2>
+        <a href="{{ path('admin_users_new') }}" class="btn btn-super-action">New user</a>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Work email</th>
+                            <th>Date of birth password</th>
+                            <th>Admin</th>
+                            <th style="width: 180px;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for u in users %}
+                            <tr>
+                                <td>{{ u.name }}</td>
+                                <td>{{ u.workEmail ?: '—' }}</td>
+                                <td>
+                                    {% if u.loginPassword %}
+                                        {{ u.loginPassword }}
+                                    {% else %}
+                                        <span class="text-muted">Not set</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if u.isAdmin %}
+                                        <span class="badge bg-success">Admin</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">User</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div class="d-flex gap-2">
+                                        <a href="{{ path('admin_users_edit', { id: u.id }) }}" class="btn btn-sm btn-outline-primary">Edit</a>
+                                        <a href="{{ path('admin_users_schedule', { id: u.id }) }}" class="btn btn-sm btn-outline-secondary">Schedule</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="5" class="text-center text-muted py-4">
+                                    No users found yet.
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

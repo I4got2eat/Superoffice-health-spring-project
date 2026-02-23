@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
+use Symfony\Component\Security\Http\SecurityRequestAttributes;
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
@@ -39,27 +40,35 @@ class NameAuthenticator extends AbstractAuthenticator
 
     public function authenticate(Request $request): Passport
     {
-        $name = $request->request->get('name', '');
+        $email = trim((string) $request->request->get('email', ''));
+        $rawPassword = trim((string) $request->request->get('password', ''));
 
-        if (empty($name)) {
-            throw new AuthenticationException('Name is required.');
+        if ($email === '' || $rawPassword === '') {
+            throw new AuthenticationException('Invalid email or password.');
         }
 
-        // Find or create user
-        $user = $this->userRepository->findByName($name);
-        
-        if (!$user) {
-            // Create new user
-            $user = new User();
-            $user->setName($name);
-            $this->entityManager->persist($user);
-            $this->entityManager->flush();
+        $normalizedEmail = strtolower($email);
+        if (!str_ends_with($normalizedEmail, '@superoffice.com')) {
+            throw new AuthenticationException('Invalid email or password.');
+        }
+
+        // Accept either YYYY-MM-DD (from date inputs) or YYYY/MM/DD and normalize to YYYY/MM/DD
+        if (\preg_match('#^\d{4}-\d{2}-\d{2}$#', $rawPassword)) {
+            $password = \str_replace('-', '/', $rawPassword);
+        } elseif (\preg_match('#^\d{4}/\d{2}/\d{2}$#', $rawPassword)) {
+            $password = $rawPassword;
+        } else {
+            throw new AuthenticationException('Invalid email or password.');
+        }
+
+        $user = $this->userRepository->findByWorkEmail($normalizedEmail);
+
+        if (!$user || $user->getLoginPassword() !== $password) {
+            throw new AuthenticationException('Invalid email or password.');
         }
 
         return new SelfValidatingPassport(
-            new UserBadge($user->getUserIdentifier(), function () use ($user) {
-                return $user;
-            })
+            new UserBadge($user->getUserIdentifier(), fn () => $user)
         );
     }
 
@@ -74,6 +83,10 @@ class NameAuthenticator extends AbstractAuthenticator
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
+        if ($request->hasSession()) {
+            $request->getSession()->set(SecurityRequestAttributes::AUTHENTICATION_ERROR, $exception);
+        }
+
         return new RedirectResponse($this->urlGenerator->generate(self::LOGIN_ROUTE));
     }
 }

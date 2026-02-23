@@ -21,6 +21,11 @@ class UserRepository extends ServiceEntityRepository
         return $this->findOneBy(['name' => $name]);
     }
 
+    public function findByWorkEmail(string $workEmail): ?User
+    {
+        return $this->findOneBy(['workEmail' => strtolower($workEmail)]);
+    }
+
     /**
      * Get all users with their total scores for leaderboard
      * @return array Array of ['user' => User, 'totalScore' => int]

@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin – {{ user ? 'Edit user' : 'New user' }}{% endblock %}
+
+{% block body %}
+<div class="container my-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card">
+                <div class="card-body p-4">
+                    <h2 class="h4 mb-3">{{ user ? 'Edit user' : 'Create new user' }}</h2>
+                    <p class="text-muted mb-4">
+                        Set the employee’s name, work email and date-of-birth password. Admins can access the admin area.
+                    </p>
+
+                    <form method="post">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="name"
+                                name="name"
+                                required
+                                value="{{ user ? user.name }}"
+                            >
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="work_email" class="form-label">Work email</label>
+                            <input
+                                type="email"
+                                class="form-control"
+                                id="work_email"
+                                name="work_email"
+                                required
+                                pattern=".+@superoffice\.com$"
+                                placeholder="employee@superoffice.com"
+                                value="{{ user ? user.workEmail }}"
+                            >
+                            <div class="form-text">
+                                Must be a SuperOffice address ending with <strong>@superoffice.com</strong>.
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="login_password" class="form-label">Password (date of birth)</label>
+                            <input
+                                type="date"
+                                class="form-control"
+                                id="login_password"
+                                name="login_password"
+                                pattern="\d{4}-\d{2}-\d{2}"
+                                value="{% if user and user.loginPassword %}{{ user.loginPassword|replace({'/':'-'}) }}{% endif %}"
+                            >
+                            <div class="form-text">
+                                Use the employee’s date of birth in <strong>YYYY/MM/DD</strong> format.
+                                The date picker stores it safely for login, for example: 1999/02/24.
+                            </div>
+                        </div>
+
+                        <div class="form-check mb-3">
+                            <input
+                                class="form-check-input"
+                                type="checkbox"
+                                id="is_admin"
+                                name="is_admin"
+                                value="1"
+                                {% if user and user.isAdmin %}checked{% endif %}
+                            >
+                            <label class="form-check-label" for="is_admin">
+                                Admin (can access admin area)
+                            </label>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4">
+                            <a href="{{ path('admin_users') }}" class="btn btn-outline-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-super-action">
+                                {{ user ? 'Save changes' : 'Create user' }}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

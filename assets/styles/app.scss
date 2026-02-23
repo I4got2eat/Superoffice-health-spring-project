@@ -24,6 +24,14 @@ body {
     display: flex;
     flex-direction: column;
     padding: 1.5rem 1.25rem;
+    max-height: 100vh;
+}
+
+.so-sidebar-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
 }
 
 .so-sidebar-logo {
@@ -34,13 +42,18 @@ body {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    margin-bottom: 2rem;
+}
+
+.so-sidebar-nav-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 }
 
 .so-sidebar-nav {
     list-style: none;
     padding-left: 0;
-    margin-bottom: auto;
+    margin-bottom: 1.5rem;
 }
 
 .so-sidebar-nav li + li {
@@ -70,13 +83,56 @@ body {
 }
 
 .so-sidebar-footer {
-    margin-top: 2rem;
     font-size: 0.85rem;
     color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    margin-top: auto;
 }
 
 .so-sidebar-user {
     font-weight: 600;
+}
+
+.so-sidebar-logout-link {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+}
+
+.so-sidebar-logout-link:hover {
+    color: #ffffff;
+}
+
+.so-sidebar-toggle {
+    display: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: transparent;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.so-sidebar-toggle span {
+    display: block;
+    width: 18px;
+    height: 2px;
+    border-radius: 999px;
+    background-color: #ffffff;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.so-sidebar-toggle.is-open span:first-child {
+    transform: translateY(3px) rotate(45deg);
+}
+
+.so-sidebar-toggle.is-open span:last-child {
+    transform: translateY(-3px) rotate(-45deg);
 }
 
 .so-main {
@@ -92,21 +148,39 @@ body {
 
     .so-sidebar {
         width: 100%;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        padding: 1rem 1.5rem;
+        align-items: stretch;
+        padding: 0.75rem 1.25rem 0.85rem;
+    }
+
+    .so-sidebar-toggle {
+        display: inline-flex;
     }
 
     .so-sidebar-nav {
         display: flex;
-        gap: 0.5rem;
-        margin-bottom: 0;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    .so-sidebar-nav-wrapper {
+        display: none;
+        padding-top: 0.35rem;
+    }
+
+    .so-sidebar-nav-wrapper.is-open {
+        display: flex;
     }
 
     .so-sidebar-footer {
-        display: none;
+        padding-top: 0.35rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.18);
     }
+}
+
+// Admin tables
+.table td,
+.table th {
+    vertical-align: middle;
 }
 
 // Public landing hero
@@ -187,30 +261,46 @@ body {
     background-color: $so-surface;
     border-radius: $card-border-radius;
     overflow: hidden;
+    width: 100%;
+    font-size: 0.8rem;
 }
 
 .calendar-table th {
     background-color: lighten($so-bg-neutral, 4%);
     color: $so-text-dark;
+    text-align: center;
+    padding-block: 0.4rem;
 }
 
 .calendar-table td {
     border-color: rgba(0, 0, 0, 0.03);
+    padding: 0.45rem 0.25rem;
 }
 
-// Override contextual colors only within the calendar
-.calendar-table .bg-success {
-    background-color: $so-brand-primary !important; // full completion
+// Status colors within the calendar
+.calendar-full {
+    background-color: $so-brand-primary !important;
     color: #ffffff !important;
 }
 
-.calendar-table .bg-warning {
-    background-color: $so-muted-orange !important; // partial completion
+.calendar-high {
+    background-color: $so-muted-green !important;
+    color: #ffffff !important;
+}
+
+.calendar-mid {
+    background-color: $so-muted-orange !important;
     color: $so-text-dark !important;
 }
 
-.calendar-table .bg-secondary {
-    background-color: rgba(0, 0, 0, 0.02) !important;
+.calendar-missed {
+    background-color: rgba($so-accent, 0.12) !important;
+    border-color: rgba($so-accent, 0.6) !important;
+    color: $so-text-dark !important;
+}
+
+.calendar-empty {
+    background-color: rgba(0, 0, 0, 0.01) !important;
     color: $so-text-muted !important;
 }
 
@@ -218,5 +308,256 @@ body {
     opacity: 0.92;
     transform: scale(1.03);
     transition: all 0.2s ease;
+}
+
+// Month container styling to give each calendar its own \"tile\"
+.so-calendar-month {
+    background-color: $so-surface;
+    border-radius: $card-border-radius;
+    box-shadow: $card-box-shadow;
+    padding: 1rem;
+}
+
+// Small color dots for legend
+.legend-swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 999px;
+    display: inline-block;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+// Daily log view – fun habit cards & animations
+.so-daily-card {
+    border-radius: $card-border-radius;
+}
+
+.so-daily-score {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.2rem;
+    font-weight: 600;
+    color: $so-brand-primary;
+    background-color: rgba($so-brand-primary, 0.06);
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+}
+
+.so-daily-score-number {
+    font-size: 1.55rem;
+}
+
+.so-daily-score-caption {
+    font-size: 0.9rem;
+    color: $so-text-muted;
+}
+
+.so-habit-card {
+    display: block;
+    background-color: $so-surface;
+    border-radius: $card-border-radius;
+    box-shadow: 0 8px 24px rgba(19, 78, 63, 0.04);
+    padding: 1rem 1.1rem;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.so-habit-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(19, 78, 63, 0.08);
+    border-color: rgba($so-brand-primary, 0.15);
+}
+
+.so-habit-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.so-habit-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba($so-brand-primary, 0.06);
+    font-size: 1.3rem;
+}
+
+.so-habit-title {
+    font-weight: 600;
+    color: $so-brand-primary;
+}
+
+.so-habit-tagline {
+    font-size: 0.85rem;
+    color: $so-text-muted;
+}
+
+.so-habit-detail {
+    margin-top: 0.6rem;
+    font-size: 0.85rem;
+    color: $so-text-dark;
+}
+
+.so-habit-pulse {
+    animation: habitPulse 0.45s ease-out;
+}
+
+@keyframes habitPulse {
+    0%   { transform: scale(1); box-shadow: 0 0 0 0 rgba($so-accent, 0.0); }
+    40%  { transform: scale(1.02); box-shadow: 0 0 0 6px rgba($so-accent, 0.25); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba($so-accent, 0.0); }
+}
+
+.so-celebration-banner {
+    border-radius: $card-border-radius;
+    padding: 0.75rem 1rem;
+    background: linear-gradient(90deg, rgba($so-brand-primary, 0.08), rgba($so-accent, 0.08));
+    min-height: 2.5em; // reserve space so layout doesn't jump
+}
+
+.so-celebration-content {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.so-celebration-emoji {
+    font-size: 1.4rem;
+}
+
+.so-celebration-soft {
+    animation: celebrationSoft 0.5s ease-out;
+}
+
+.so-celebration-strong {
+    animation: celebrationStrong 0.9s ease-out;
+}
+
+.so-celebration-hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+@keyframes celebrationSoft {
+    0%   { opacity: 0; transform: translateY(4px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes celebrationStrong {
+    0%   { opacity: 0; transform: translateY(8px) scale(0.96); }
+    40%  { opacity: 1; transform: translateY(0) scale(1.02); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.so-score-pop {
+    animation: scorePop 0.35s ease-out;
+}
+
+@keyframes scorePop {
+    0%   { transform: scale(1); }
+    40%  { transform: scale(1.15); }
+    100% { transform: scale(1); }
+}
+
+// Dashboard header metric cards (total / week / today)
+.so-dashboard-metrics {
+    row-gap: 1rem;
+}
+
+.so-metric-card {
+    border: none;
+    background: linear-gradient(135deg, $so-brand-primary, darken($so-brand-primary, 10%));
+    color: #ffffff;
+    box-shadow: 0 14px 35px rgba(15, 118, 110, 0.45);
+}
+
+.so-metric-card .card-body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
+}
+
+.so-metric-label {
+    font-size: 0.85rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    opacity: 0.85;
+}
+
+.so-metric-value {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.15;
+}
+
+.so-metric-pill {
+    margin-top: 0.35rem;
+    padding: 0.125rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.so-metric-pill--total {
+    background-color: rgba(255, 255, 255, 0.16);
+}
+
+.so-metric-pill--week {
+    background-color: rgba($so-accent, 0.28);
+}
+
+.so-metric-pill--today {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+// Calendar responsiveness on small screens
+.so-calendar-month {
+    overflow-x: auto;
+}
+
+@media (max-width: 767.98px) {
+    .so-main {
+        padding: 1.25rem 1rem;
+    }
+
+    .so-daily-card .card-header {
+        padding-inline: 1rem;
+        padding-top: 1rem;
+        padding-bottom: 0.75rem;
+    }
+
+    .so-daily-score {
+        margin-top: 0.5rem;
+        align-self: flex-start;
+    }
+
+    .so-habit-card {
+        padding: 0.9rem 0.95rem;
+    }
+
+    .so-habit-header {
+        align-items: flex-start;
+    }
+
+    .calendar-table {
+        min-width: 520px;
+        font-size: 0.75rem;
+    }
+
+    .so-dashboard-metrics .col-md-4 {
+        margin-bottom: 0.5rem;
+    }
+
+    .so-metric-card .card-body {
+        align-items: center;
+        text-align: center;
+    }
 }
 

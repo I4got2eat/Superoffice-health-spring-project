@@ -5,28 +5,31 @@
 {% block body %}
 <div class="container my-4">
     {# Header Stats #}
-    <div class="row mb-4">
-        <div class="col-md-4">
-            <div class="card text-center">
+    <div class="row mb-4 so-dashboard-metrics g-3 g-md-4">
+        <div class="col-12 col-md-4">
+            <div class="card so-metric-card">
                 <div class="card-body">
-                    <h5 class="card-title text-muted">Total Score</h5>
-                    <h2 class="display-4 fw-bold text-primary">{{ totalScore }}</h2>
+                    <div class="so-metric-label">Total score</div>
+                    <div class="so-metric-value">{{ totalScore }}</div>
+                    <div class="so-metric-pill so-metric-pill--total">All time</div>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card text-center">
+        <div class="col-12 col-md-4">
+            <div class="card so-metric-card">
                 <div class="card-body">
-                    <h5 class="card-title text-muted">Current Week Score</h5>
-                    <h2 class="display-4 fw-bold text-info">{{ currentWeekScore }}</h2>
+                    <div class="so-metric-label">Current week</div>
+                    <div class="so-metric-value">{{ currentWeekScore }}</div>
+                    <div class="so-metric-pill so-metric-pill--week">This week</div>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card text-center">
+        <div class="col-12 col-md-4">
+            <div class="card so-metric-card">
                 <div class="card-body">
-                    <h5 class="card-title text-muted">Today's Score</h5>
-                    <h2 class="display-4 fw-bold text-success">{{ todayScore }}</h2>
+                    <div class="so-metric-label">Today</div>
+                    <div class="so-metric-value">{{ todayScore }}</div>
+                    <div class="so-metric-pill so-metric-pill--today">Today’s points</div>
                 </div>
             </div>
         </div>
@@ -38,41 +41,86 @@
             <h4 class="mb-0">Weekly Tracker</h4>
         </div>
         <div class="card-body">
-            <form method="post" action="{{ path('app_dashboard_weekly_log') }}">
-                <div class="form-check mb-3">
-                    <input class="form-check-input" type="checkbox" name="activity_done" id="activity_done" 
-                           value="1" {{ currentWeekLog.activityDone ? 'checked' : '' }}>
-                    <label class="form-check-label" for="activity_done">
+            <p class="text-muted small mb-3">
+                Once you mark a weekly task as done, it stays done.
+                You can come back later to add the other task, but you can’t untick what you’ve already completed.
+            </p>
+            <form id="weekly-log-form"
+                  method="post"
+                  action="{{ path('app_dashboard_weekly_log') }}"
+                  data-is-admin="{{ is_granted('ROLE_ADMIN') ? '1' : '0' }}">
+                <div class="form-check mb-2">
+                    <input class="form-check-input"
+                           type="checkbox"
+                           name="activity_done"
+                           id="activity_done"
+                           value="1"
+                           {{ currentWeekLog.activityDone ? 'checked' : '' }}
+                           data-initial="{{ currentWeekLog.activityDone ? '1' : '0' }}">
+                    <label class="form-check-label fw-semibold" for="activity_done">
                         150 min Activity
                     </label>
                 </div>
-                <div class="form-check mb-3">
-                    <input class="form-check-input" type="checkbox" name="social_done" id="social_done" 
-                           value="1" {{ currentWeekLog.socialDone ? 'checked' : '' }}>
-                    <label class="form-check-label" for="social_done">
+                <div class="text-muted small mb-3 ms-4">
+                    Tick this when you’ve reached 150 minutes of movement this week.
+                </div>
+
+                <div class="form-check mb-2">
+                    <input class="form-check-input"
+                           type="checkbox"
+                           name="social_done"
+                           id="social_done"
+                           value="1"
+                           {{ currentWeekLog.socialDone ? 'checked' : '' }}
+                           data-initial="{{ currentWeekLog.socialDone ? '1' : '0' }}">
+                    <label class="form-check-label fw-semibold" for="social_done">
                         4 Social Interactions
                     </label>
                 </div>
-                <button type="submit" class="btn btn-super-action">Save Weekly Log</button>
+                <div class="text-muted small mb-3 ms-4">
+                    Tick this when you’ve had at least four meaningful check‑ins this week.
+                </div>
+
+                <button type="submit" class="btn btn-super-action">Save this week</button>
             </form>
         </div>
     </div>
 
-    {# 3-Month Calendar Section #}
+    {# Calendar Section - single active month with navigation #}
     <div class="card">
         <div class="card-header">
-            <h4 class="mb-0">Challenge Calendar</h4>
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h4 class="mb-0">Challenge Calendar</h4>
+                </div>
+                <div class="btn-group btn-group-sm">
+                    {% if prevMonth %}
+                        <a href="{{ path('app_dashboard', { month: prevMonth.key }) }}"
+                           class="btn btn-outline-primary">
+                            ‹ {{ prevMonth.name }}
+                        </a>
+                    {% endif %}
+                    {% if nextMonth %}
+                        <a href="{{ path('app_dashboard', { month: nextMonth.key }) }}"
+                           class="btn btn-outline-primary">
+                            {{ nextMonth.name }} ›
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
         </div>
         <div class="card-body">
-            {% for monthData in months %}
-                <div class="mb-5">
-                    <h5 class="mb-3">{{ monthData.name }} {{ monthData.year }}</h5>
-                    {% set firstDay = date(monthData.year ~ '-' ~ monthData.month ~ '-01') %}
-                    {% set lastDay = firstDay|date_modify('last day of this month') %}
-                    {% set startDate = challengeService.startDateProperty %}
-                    {% set endDate = challengeService.endDateProperty %}
+            {% set monthData = selectedMonth %}
+            <div class="so-calendar-month">
+                <h5 class="mb-3 text-center">{{ monthData.name }} {{ monthData.year }}</h5>
+                {% set firstDay = date(monthData.year ~ '-' ~ monthData.month ~ '-01') %}
+                {% set lastDay = firstDay|date_modify('last day of this month') %}
+                {% set startDate = challengeService.startDateProperty %}
+                {% set endDate = challengeService.endDateProperty %}
                     
-                    <table class="table table-bordered calendar-table">
+                {% set todayKey = 'now'|date('Y-m-d') %}
+
+                <table class="table table-bordered calendar-table mb-0">
                         <thead>
                             <tr>
                                 <th>Mon</th>
@@ -107,15 +155,21 @@
                                             {% if log %}
                                                 {% set points = log.points %}
                                                 {% if points == 4 %}
-                                                    {% set cellClass = 'bg-success text-white' %}
+                                                    {% set cellClass = 'calendar-full' %}
+                                                {% elseif points == 3 %}
+                                                    {% set cellClass = 'calendar-high' %}
                                                 {% elseif points >= 1 %}
-                                                    {% set cellClass = 'bg-warning' %}
+                                                    {% set cellClass = 'calendar-mid' %}
                                                 {% else %}
-                                                    {% set cellClass = 'bg-secondary text-white' %}
+                                                    {% set cellClass = 'calendar-empty' %}
                                                 {% endif %}
                                             {% else %}
-                                                {% set cellClass = 'bg-secondary text-white' %}
                                                 {% set points = 0 %}
+                                                {% if dayKey < todayKey %}
+                                                    {% set cellClass = 'calendar-missed' %}
+                                                {% else %}
+                                                    {% set cellClass = 'calendar-empty' %}
+                                                {% endif %}
                                             {% endif %}
                                             
                                             <td class="{{ cellClass }} calendar-day" 
@@ -135,9 +189,8 @@
                                 </tr>
                             {% endfor %}
                         </tbody>
-                    </table>
-                </div>
-            {% endfor %}
+                </table>
+            </div>
         </div>
     </div>
 </div>
@@ -146,10 +199,29 @@
 <div class="container mb-4">
     <div class="card">
         <div class="card-body">
-            <h6>Legend:</h6>
-            <span class="badge bg-secondary me-2">Gray</span> 0 tasks done
-            <span class="badge bg-warning me-2">Orange</span> 1-3 tasks done
-            <span class="badge bg-success me-2">Green</span> All 4 tasks done
+            <h6 class="mb-3">Legend</h6>
+            <div class="d-flex flex-wrap gap-3">
+                <div class="d-flex align-items-center">
+                    <span class="legend-swatch calendar-full me-2"></span>
+                    <small class="text-muted">4 tasks done</small>
+                </div>
+                <div class="d-flex align-items-center">
+                    <span class="legend-swatch calendar-high me-2"></span>
+                    <small class="text-muted">3 tasks done</small>
+                </div>
+                <div class="d-flex align-items-center">
+                    <span class="legend-swatch calendar-mid me-2"></span>
+                    <small class="text-muted">1–2 tasks done</small>
+                </div>
+                <div class="d-flex align-items-center">
+                    <span class="legend-swatch calendar-missed me-2"></span>
+                    <small class="text-muted">Missed day (past, 0 tasks)</small>
+                </div>
+                <div class="d-flex align-items-center">
+                    <span class="legend-swatch calendar-empty me-2"></span>
+                    <small class="text-muted">No data yet / future</small>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -162,6 +234,60 @@ document.addEventListener('DOMContentLoaded', function() {
             window.location.href = '{{ path('app_dashboard_log_date', {'date': 'PLACEHOLDER'}) }}'.replace('PLACEHOLDER', date);
         });
     });
+
+    const weeklyForm = document.getElementById('weekly-log-form');
+    if (weeklyForm) {
+        const isAdmin = weeklyForm.dataset.isAdmin === '1';
+        const activityCb = document.getElementById('activity_done');
+        const socialCb = document.getElementById('social_done');
+
+        function attachLockBehavior(cb) {
+            if (!cb || isAdmin) return;
+            const initial = cb.dataset.initial === '1';
+            cb.addEventListener('change', function () {
+                if (initial && !cb.checked) {
+                    cb.checked = true;
+                    alert('You can add weekly tasks, but you can’t uncheck something you have already completed. If this is a mistake, ask an admin to update it.');
+                }
+            });
+        }
+
+        attachLockBehavior(activityCb);
+        attachLockBehavior(socialCb);
+
+        weeklyForm.addEventListener('submit', function (e) {
+            if (isAdmin) {
+                return; // admins can save directly
+            }
+
+            const initialActivity = activityCb ? activityCb.dataset.initial === '1' : false;
+            const initialSocial = socialCb ? socialCb.dataset.initial === '1' : false;
+            const newActivity = activityCb ? activityCb.checked : false;
+            const newSocial = socialCb ? socialCb.checked : false;
+
+            const becameActivityDone = !initialActivity && newActivity;
+            const becameSocialDone = !initialSocial && newSocial;
+
+            if (!becameActivityDone && !becameSocialDone) {
+                return; // nothing new, just save silently
+            }
+
+            e.preventDefault();
+
+            let message = 'You are about to save this week as:\n\n';
+            if (newActivity) {
+                message += '• 150 min Activity: done\n';
+            }
+            if (newSocial) {
+                message += '• 4 Social Interactions: done\n';
+            }
+            message += '\nThis cannot be undone later (you can only add more). Continue?';
+
+            if (confirm(message)) {
+                weeklyForm.submit();
+            }
+        });
+    }
 });
 </script>
 

@@ -1,0 +1,189 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin – {{ subjectUser.name }} schedule{% endblock %}
+
+{% block body %}
+<div class="container my-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h2 class="mb-1">{{ subjectUser.name }}</h2>
+            <p class="mb-0 text-muted">
+                {{ subjectUser.workEmail }} · {{ subjectUser.loginPassword ? 'DOB password: ' ~ subjectUser.loginPassword : 'Password not set' }}
+            </p>
+        </div>
+        <a href="{{ path('admin_users') }}" class="btn btn-outline-secondary">Back to users</a>
+    </div>
+
+    <div class="row mb-4 so-dashboard-metrics g-3 g-md-4">
+        <div class="col-12 col-md-4">
+            <div class="card so-metric-card">
+                <div class="card-body">
+                    <div class="so-metric-label">Total score</div>
+                    <div class="so-metric-value">{{ totalScore }}</div>
+                    <div class="so-metric-pill so-metric-pill--total">All time</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="card so-metric-card">
+                <div class="card-body">
+                    <div class="so-metric-label">Current week</div>
+                    <div class="so-metric-value">{{ currentWeekScore }}</div>
+                    <div class="so-metric-pill so-metric-pill--week">This week</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="card so-metric-card">
+                <div class="card-body">
+                    <div class="so-metric-label">Today</div>
+                    <div class="so-metric-value">{{ todayScore }}</div>
+                    <div class="so-metric-pill so-metric-pill--today">Today’s points</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h4 class="mb-0">Weekly Tracker (admin override)</h4>
+        </div>
+        <div class="card-body">
+            <p class="text-muted small mb-3">
+                As an admin you can freely correct this week’s tracker for {{ subjectUser.name }}.
+            </p>
+            <form method="post" action="{{ path('admin_users_weekly_log', { id: subjectUser.id }) }}">
+                <div class="form-check mb-2">
+                    <input class="form-check-input"
+                           type="checkbox"
+                           name="activity_done"
+                           id="admin_activity_done"
+                           value="1"
+                           {{ subjectUser.weeklyLogs|last and subjectUser.weeklyLogs|last.activityDone ? 'checked' : '' }}>
+                    <label class="form-check-label fw-semibold" for="admin_activity_done">
+                        150 min Activity
+                    </label>
+                </div>
+                <div class="form-check mb-3">
+                    <input class="form-check-input"
+                           type="checkbox"
+                           name="social_done"
+                           id="admin_social_done"
+                           value="1"
+                           {{ subjectUser.weeklyLogs|last and subjectUser.weeklyLogs|last.socialDone ? 'checked' : '' }}>
+                    <label class="form-check-label fw-semibold" for="admin_social_done">
+                        4 Social Interactions
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-super-action btn-sm">Save this week for {{ subjectUser.name }}</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h4 class="mb-0">Challenge Calendar</h4>
+                </div>
+                <div class="btn-group btn-group-sm">
+                    {% if prevMonth %}
+                        <a href="{{ path('admin_users_schedule', { id: subjectUser.id, month: prevMonth.key }) }}"
+                           class="btn btn-outline-primary">
+                            ‹ {{ prevMonth.name }}
+                        </a>
+                    {% endif %}
+                    {% if nextMonth %}
+                        <a href="{{ path('admin_users_schedule', { id: subjectUser.id, month: nextMonth.key }) }}"
+                           class="btn btn-outline-primary">
+                            {{ nextMonth.name }} ›
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            {% set monthData = selectedMonth %}
+            <div class="so-calendar-month">
+                <h5 class="mb-3 text-center">{{ monthData.name }} {{ monthData.year }}</h5>
+                {% set firstDay = date(monthData.year ~ '-' ~ monthData.month ~ '-01') %}
+                {% set lastDay = firstDay|date_modify('last day of this month') %}
+                {% set startDate = challengeService.startDateProperty %}
+                {% set endDate = challengeService.endDateProperty %}
+
+                {% set todayKey = 'now'|date('Y-m-d') %}
+
+                <table class="table table-bordered calendar-table mb-0">
+                    <thead>
+                        <tr>
+                            <th>Mon</th>
+                            <th>Tue</th>
+                            <th>Wed</th>
+                            <th>Thu</th>
+                            <th>Fri</th>
+                            <th>Sat</th>
+                            <th>Sun</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% set gridStart = firstDay|date_modify('monday this week') %}
+                        {% set gridEnd = lastDay|date_modify('sunday this week') %}
+                        {% set totalDays = ((gridEnd|date('U') - gridStart|date('U')) / 86400)|round(0, 'ceil') + 1 %}
+                        {% set weeks = (totalDays / 7)|round(0, 'ceil') %}
+                        {% set weeks = weeks < 1 ? 1 : weeks %}
+                        {% set gridStartStr = gridStart|date('Y-m-d') %}
+
+                        {% for w in 0..(weeks - 1) %}
+                            <tr>
+                                {% for day in 0..6 %}
+                                    {% set offsetDays = (w * 7) + day %}
+                                    {% set dayDate = date(gridStartStr)|date_modify('+' ~ offsetDays ~ ' days') %}
+                                    {% set dayKey = dayDate|date('Y-m-d') %}
+                                    {% set isInMonth = dayDate|date('n') == monthData.month %}
+                                    {% set isInChallenge = dayDate >= startDate and dayDate <= endDate %}
+
+                                    {% if isInMonth and isInChallenge %}
+                                        {% set log = dailyLogsMap[dayKey] ?? null %}
+                                        {% if log %}
+                                            {% set points = log.points %}
+                                            {% if points == 4 %}
+                                                {% set cellClass = 'calendar-full' %}
+                                            {% elseif points == 3 %}
+                                                {% set cellClass = 'calendar-high' %}
+                                            {% elseif points >= 1 %}
+                                                {% set cellClass = 'calendar-mid' %}
+                                            {% else %}
+                                                {% set cellClass = 'calendar-empty' %}
+                                            {% endif %}
+                                        {% else %}
+                                            {% set points = 0 %}
+                                            {% if dayKey < todayKey %}
+                                                {% set cellClass = 'calendar-missed' %}
+                                            {% else %}
+                                                {% set cellClass = 'calendar-empty' %}
+                                            {% endif %}
+                                        {% endif %}
+
+                                        <td class="{{ cellClass }}"
+                                            style="min-width: 80px; height: 60px; vertical-align: middle; text-align: center;">
+                                            <div>{{ dayDate|date('j') }}</div>
+                                            <small>{{ points }}/4</small>
+                                        </td>
+                                    {% elseif isInMonth %}
+                                        <td class="text-muted" style="min-width: 80px; height: 60px; vertical-align: middle; text-align: center;">
+                                            {{ dayDate|date('j') }}
+                                        </td>
+                                    {% else %}
+                                        <td style="min-width: 80px; height: 60px;"></td>
+                                    {% endif %}
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

@@ -5,44 +5,133 @@
 {% block body %}
 <div class="container my-4">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="mb-0">Log Daily Habits - {{ date|date('F j, Y') }}</h4>
+        <div class="col-lg-8">
+            <div id="so-daily-celebration" class="so-celebration-banner so-celebration-hidden mb-3">
+                <div class="so-celebration-content">
+                    <span class="so-celebration-emoji">✨</span>
+                    <span class="so-celebration-text"></span>
+                </div>
+            </div>
+            <div class="card so-daily-card">
+                <div class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+                    <div>
+                        <h4 class="mb-0">Your day on {{ date|date('F j, Y') }}</h4>
+                        <small class="text-muted">Tick off what you’ve achieved today – every habit is one point closer.</small>
+                    </div>
+                    <div class="so-daily-score mt-3 mt-md-0">
+                        {% set initialScore = (dailyLog.hydrationDone ? 1 : 0)
+                            + (dailyLog.sleepDone ? 1 : 0)
+                            + (dailyLog.stepsDone ? 1 : 0)
+                            + (dailyLog.nutritionDone ? 1 : 0) %}
+                        <span class="so-daily-score-number" data-initial-score="{{ initialScore }}">{{ initialScore }}</span>
+                        <span class="so-daily-score-caption">/ 4 today</span>
+                    </div>
                 </div>
                 <div class="card-body">
-                    <form method="post" action="{{ path('app_dashboard_log_date', {'date': date|date('Y-m-d')}) }}">
-                        <div class="form-check mb-3">
-                            <input class="form-check-input" type="checkbox" name="hydration_done" id="hydration_done" 
-                                   value="1" {{ dailyLog.hydrationDone ? 'checked' : '' }}>
-                            <label class="form-check-label" for="hydration_done">
-                                💧 Hydration
-                            </label>
+                    <form id="daily-log-form" method="post" action="{{ path('app_dashboard_log_date', {'date': date|date('Y-m-d')}) }}">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="so-habit-card">
+                                    <div class="so-habit-header">
+                                        <div class="so-habit-icon">💧</div>
+                                        <div>
+                                            <div class="so-habit-title">Hydration</div>
+                                            <div class="so-habit-tagline">Aim for 6–8 glasses of water.</div>
+                                        </div>
+                                        <div class="form-check form-switch ms-auto">
+                                            <input class="form-check-input so-habit-checkbox"
+                                                   type="checkbox"
+                                                   name="hydration_done"
+                                                   id="hydration_done"
+                                                   value="1"
+                                                   {{ dailyLog.hydrationDone ? 'checked' : '' }}
+                                                   data-habit="hydration">
+                                        </div>
+                                    </div>
+                                    <p class="so-habit-detail">
+                                        Staying hydrated boosts energy, supports concentration and keeps joints and muscles working smoothly.
+                                    </p>
+                                </label>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="so-habit-card">
+                                    <div class="so-habit-header">
+                                        <div class="so-habit-icon">😴</div>
+                                        <div>
+                                            <div class="so-habit-title">Sleep</div>
+                                            <div class="so-habit-tagline">Target 7–9 hours of quality rest.</div>
+                                        </div>
+                                        <div class="form-check form-switch ms-auto">
+                                            <input class="form-check-input so-habit-checkbox"
+                                                   type="checkbox"
+                                                   name="sleep_done"
+                                                   id="sleep_done"
+                                                   value="1"
+                                                   {{ dailyLog.sleepDone ? 'checked' : '' }}
+                                                   data-habit="sleep">
+                                        </div>
+                                    </div>
+                                    <p class="so-habit-detail">
+                                        Deep, regular sleep resets your brain, stabilizes mood, strengthens immunity and improves decision-making.
+                                    </p>
+                                </label>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="so-habit-card">
+                                    <div class="so-habit-header">
+                                        <div class="so-habit-icon">🚶</div>
+                                        <div>
+                                            <div class="so-habit-title">Steps & Movement</div>
+                                            <div class="so-habit-tagline">Move regularly throughout the day.</div>
+                                        </div>
+                                        <div class="form-check form-switch ms-auto">
+                                            <input class="form-check-input so-habit-checkbox"
+                                                   type="checkbox"
+                                                   name="steps_done"
+                                                   id="steps_done"
+                                                   value="1"
+                                                   {{ dailyLog.stepsDone ? 'checked' : '' }}
+                                                   data-habit="steps">
+                                        </div>
+                                    </div>
+                                    <p class="so-habit-detail">
+                                        Regular movement improves circulation, reduces stiffness and lifts your overall energy and focus.
+                                    </p>
+                                </label>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="so-habit-card">
+                                    <div class="so-habit-header">
+                                        <div class="so-habit-icon">🥗</div>
+                                        <div>
+                                            <div class="so-habit-title">Nutrition</div>
+                                            <div class="so-habit-tagline">Choose balanced, colorful meals.</div>
+                                        </div>
+                                        <div class="form-check form-switch ms-auto">
+                                            <input class="form-check-input so-habit-checkbox"
+                                                   type="checkbox"
+                                                   name="nutrition_done"
+                                                   id="nutrition_done"
+                                                   value="1"
+                                                   {{ dailyLog.nutritionDone ? 'checked' : '' }}
+                                                   data-habit="nutrition">
+                                        </div>
+                                    </div>
+                                    <p class="so-habit-detail">
+                                        Nutritious food fuels your body, stabilizes blood sugar and supports long-term heart and brain health.
+                                    </p>
+                                </label>
+                            </div>
                         </div>
-                        <div class="form-check mb-3">
-                            <input class="form-check-input" type="checkbox" name="sleep_done" id="sleep_done" 
-                                   value="1" {{ dailyLog.sleepDone ? 'checked' : '' }}>
-                            <label class="form-check-label" for="sleep_done">
-                                😴 Sleep
-                            </label>
-                        </div>
-                        <div class="form-check mb-3">
-                            <input class="form-check-input" type="checkbox" name="steps_done" id="steps_done" 
-                                   value="1" {{ dailyLog.stepsDone ? 'checked' : '' }}>
-                            <label class="form-check-label" for="steps_done">
-                                🚶 Steps
-                            </label>
-                        </div>
-                        <div class="form-check mb-3">
-                            <input class="form-check-input" type="checkbox" name="nutrition_done" id="nutrition_done" 
-                                   value="1" {{ dailyLog.nutritionDone ? 'checked' : '' }}>
-                            <label class="form-check-label" for="nutrition_done">
-                                🥗 Nutrition
-                            </label>
-                        </div>
-                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                            <a href="{{ path('app_dashboard') }}" class="btn btn-secondary me-md-2">Cancel</a>
-                            <button type="submit" class="btn btn-super-action">Save</button>
+
+                        <div class="d-flex justify-content-between align-items-center mt-4">
+                            <a href="{{ path('app_dashboard') }}" class="btn btn-secondary">Back to dashboard</a>
+                            <button type="submit" class="btn btn-super-action">
+                                Save today’s progress
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -50,4 +139,73 @@
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const checkboxes = document.querySelectorAll('.so-habit-checkbox');
+    const scoreNumber = document.querySelector('.so-daily-score-number');
+    const celebration = document.getElementById('so-daily-celebration');
+    const celebrationText = celebration ? celebration.querySelector('.so-celebration-text') : null;
+    const celebrationEmoji = celebration ? celebration.querySelector('.so-celebration-emoji') : null;
+
+    function updateScoreAndAnimation(triggerHabit) {
+        let count = 0;
+        checkboxes.forEach(cb => { if (cb.checked) count++; });
+        if (scoreNumber) {
+            scoreNumber.textContent = count;
+            scoreNumber.classList.remove('so-score-pop');
+            void scoreNumber.offsetWidth; // restart animation
+            scoreNumber.classList.add('so-score-pop');
+        }
+
+        if (!celebration || !celebrationText || !celebrationEmoji) {
+            return;
+        }
+
+        let message = '';
+        let emoji = '✨';
+        let bannerClass = 'so-celebration-soft';
+
+        if (count === 0) {
+            celebration.classList.remove('so-celebration-soft', 'so-celebration-strong');
+            celebration.classList.add('so-celebration-hidden');
+            return;
+        } else if (count <= 2) {
+            message = 'Nice start – every habit you tick moves you up the leaderboard.';
+            emoji = '🌱';
+        } else if (count === 3) {
+            message = 'So close! One more habit and you’ve completed a perfect Health Spring day.';
+            emoji = '💪';
+        } else if (count === 4) {
+            message = 'Perfect day! You hit all four habits – your future self says thank you.';
+            emoji = '🎉';
+            bannerClass = 'so-celebration-strong';
+        }
+
+        celebration.classList.remove('so-celebration-hidden', 'so-celebration-soft', 'so-celebration-strong');
+        celebration.classList.add(bannerClass);
+        celebrationText.textContent = message;
+        celebrationEmoji.textContent = emoji;
+
+        // Pulse the habit card that triggered the change
+        if (triggerHabit) {
+            const card = triggerHabit.closest('.so-habit-card');
+            if (card) {
+                card.classList.remove('so-habit-pulse');
+                void card.offsetWidth;
+                card.classList.add('so-habit-pulse');
+            }
+        }
+    }
+
+    checkboxes.forEach(cb => {
+        cb.addEventListener('change', function () {
+            updateScoreAndAnimation(this);
+        });
+    });
+
+    // Run once on load with existing state
+    updateScoreAndAnimation(null);
+});
+</script>
 {% endblock %}

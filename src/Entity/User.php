@@ -22,6 +22,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, unique: true)]
     private ?string $name = null;
 
+    #[ORM\Column(length: 255, unique: true, nullable: true)]
+    private ?string $workEmail = null;
+
+    #[ORM\Column(length: 20, nullable: true)]
+    private ?string $loginPassword = null;
+
+    #[ORM\Column(options: ['default' => false])]
+    private bool $isAdmin = false;
+
     #[ORM\OneToMany(targetEntity: DailyLog::class, mappedBy: 'user', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $dailyLogs;
 
@@ -47,6 +56,39 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setName(string $name): static
     {
         $this->name = $name;
+        return $this;
+    }
+
+    public function getWorkEmail(): ?string
+    {
+        return $this->workEmail;
+    }
+
+    public function setWorkEmail(?string $workEmail): static
+    {
+        $this->workEmail = $workEmail ? strtolower($workEmail) : null;
+        return $this;
+    }
+
+    public function getLoginPassword(): ?string
+    {
+        return $this->loginPassword;
+    }
+
+    public function setLoginPassword(?string $loginPassword): static
+    {
+        $this->loginPassword = $loginPassword;
+        return $this;
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->isAdmin;
+    }
+
+    public function setIsAdmin(bool $isAdmin): static
+    {
+        $this->isAdmin = $isAdmin;
         return $this;
     }
 
@@ -111,12 +153,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     // UserInterface methods
     public function getUserIdentifier(): string
     {
-        return (string) $this->name;
+        // Must match the property used by the security provider (workEmail)
+        return (string) ($this->workEmail ?? $this->name);
     }
 
     public function getRoles(): array
     {
-        return ['ROLE_USER'];
+        $roles = ['ROLE_USER'];
+        if ($this->isAdmin) {
+            $roles[] = 'ROLE_ADMIN';
+        }
+        return $roles;
     }
 
     public function eraseCredentials(): void
@@ -126,6 +173,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getPassword(): ?string
     {
-        return null; // No password for name-based auth
+        return $this->loginPassword;
     }
 }
