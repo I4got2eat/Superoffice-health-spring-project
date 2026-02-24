@@ -52,10 +52,12 @@ class NameAuthenticator extends AbstractAuthenticator
             throw new AuthenticationException('Invalid email or password.');
         }
 
-        // Accept either YYYY-MM-DD (from date inputs) or YYYY/MM/DD and normalize to YYYY/MM/DD
+        // Accept DOB as YYYY-MM-DD, YYYY/MM/DD or YYYYMMDD and normalize to YYYYMMDD
         if (\preg_match('#^\d{4}-\d{2}-\d{2}$#', $rawPassword)) {
-            $password = \str_replace('-', '/', $rawPassword);
+            $password = \str_replace('-', '', $rawPassword);
         } elseif (\preg_match('#^\d{4}/\d{2}/\d{2}$#', $rawPassword)) {
+            $password = \str_replace('/', '', $rawPassword);
+        } elseif (\preg_match('#^\d{8}$#', $rawPassword)) {
             $password = $rawPassword;
         } else {
             throw new AuthenticationException('Invalid email or password.');
@@ -63,7 +65,14 @@ class NameAuthenticator extends AbstractAuthenticator
 
         $user = $this->userRepository->findByWorkEmail($normalizedEmail);
 
-        if (!$user || $user->getLoginPassword() !== $password) {
+        if (!$user) {
+            throw new AuthenticationException('Invalid email or password.');
+        }
+
+        $storedPassword = (string) $user->getLoginPassword();
+        $normalizedStored = \preg_replace('#[/-]#', '', $storedPassword);
+
+        if ($normalizedStored !== $password) {
             throw new AuthenticationException('Invalid email or password.');
         }
 

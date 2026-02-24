@@ -51,11 +51,11 @@
                                 id="login_password"
                                 name="login_password"
                                 pattern="\d{4}-\d{2}-\d{2}"
-                                value="{% if user and user.loginPassword %}{{ user.loginPassword|replace({'/':'-'}) }}{% endif %}"
+                                value="{% if user and user.loginPassword %}{{ user.loginPassword|slice(0, 4) ~ '-' ~ user.loginPassword|slice(4, 2) ~ '-' ~ user.loginPassword|slice(6, 2) }}{% endif %}"
                             >
                             <div class="form-text">
-                                Use the employee’s date of birth in <strong>YYYY/MM/DD</strong> format.
-                                The date picker stores it safely for login, for example: 1999/02/24.
+                                Use the employee’s date of birth; it will be stored as an 8-digit
+                                password in <strong>YYYYMMDD</strong> format (e.g. <code>19990224</code>).
                             </div>
                         </div>
 

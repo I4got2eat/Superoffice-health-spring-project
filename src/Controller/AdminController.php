@@ -41,7 +41,7 @@ class AdminController extends AbstractController
             $user->setWorkEmail($email);
 
             if ($dobRaw !== '' && preg_match('#^\d{4}-\d{2}-\d{2}$#', $dobRaw)) {
-                $user->setLoginPassword(str_replace('-', '/', $dobRaw));
+                $user->setLoginPassword(str_replace('-', '', $dobRaw));
             }
 
             $user->setIsAdmin($isAdmin);
@@ -75,7 +75,7 @@ class AdminController extends AbstractController
             $user->setWorkEmail($email);
 
             if ($dobRaw !== '' && preg_match('#^\d{4}-\d{2}-\d{2}$#', $dobRaw)) {
-                $user->setLoginPassword(str_replace('-', '/', $dobRaw));
+                $user->setLoginPassword(str_replace('-', '', $dobRaw));
             }
 
             $user->setIsAdmin($isAdmin);
