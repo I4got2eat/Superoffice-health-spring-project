@@ -20,7 +20,7 @@ body {
 .so-sidebar {
     width: 260px;
     background-color: $so-brand-primary;
-    color: #ffffff;
+    color: #F2EFEA;
     display: flex;
     flex-direction: column;
     padding: 1.5rem 1.25rem;
@@ -37,7 +37,7 @@ body {
 .so-sidebar-logo {
     font-weight: 700;
     font-size: 1.25rem;
-    color: #ffffff;
+    color: #F2EFEA;
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -65,7 +65,7 @@ body {
     align-items: center;
     padding: 0.6rem 0.9rem;
     border-radius: 999px;
-    color: #ffffff;
+    color: #F2EFEA;
     text-decoration: none;
     font-weight: 500;
     font-size: 0.95rem;
@@ -74,17 +74,17 @@ body {
 
 .so-sidebar-link:hover {
     opacity: 1;
-    background-color: rgba(255, 255, 255, 0.12);
+    background-color: rgba(242, 239, 234, 0.12);
 }
 
 .so-sidebar-link.so-active {
-    background-color: rgba(255, 255, 255, 0.16);
-    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2);
+    background-color: rgba(242, 239, 234, 0.16);
+    box-shadow: 0 0 0 1px rgba(242, 239, 234, 0.2);
 }
 
 .so-sidebar-footer {
     font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(242, 239, 234, 0.8);
     display: flex;
     flex-direction: column;
     gap: 0.1rem;
@@ -96,12 +96,12 @@ body {
 }
 
 .so-sidebar-logout-link {
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(242, 239, 234, 0.7);
     text-decoration: none;
 }
 
 .so-sidebar-logout-link:hover {
-    color: #ffffff;
+    color: #F2EFEA;
 }
 
 .so-sidebar-toggle {
@@ -109,7 +109,7 @@ body {
     width: 40px;
     height: 40px;
     border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(242, 239, 234, 0.3);
     background: transparent;
     padding: 0;
     align-items: center;
@@ -123,7 +123,7 @@ body {
     width: 18px;
     height: 2px;
     border-radius: 999px;
-    background-color: #ffffff;
+    background-color: #F2EFEA;
     transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
@@ -173,7 +173,7 @@ body {
 
     .so-sidebar-footer {
         padding-top: 0.35rem;
-        border-top: 1px solid rgba(255, 255, 255, 0.18);
+        border-top: 1px solid rgba(242, 239, 234, 0.18);
     }
 }
 
@@ -186,15 +186,15 @@ body {
 // Public landing hero
 .so-landing-hero {
     background-color: $so-brand-primary;
-    color: #ffffff;
+    color: #F2EFEA;
 }
 
 .so-landing-hero h1 {
-    color: #ffffff;
+    color: #F2EFEA;
 }
 
 .so-landing-hero p.lead {
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(242, 239, 234, 0.9);
 }
 
 // Shared logo styling (sidebar + public header)
@@ -219,7 +219,7 @@ body {
 .btn-super-action {
     background-color: $so-accent;
     border-color: $so-accent;
-    color: #ffffff;
+    color: #F2EFEA;
     border-radius: 50px;
     padding-inline: 1.75rem;
     padding-block: 0.55rem;
@@ -229,7 +229,7 @@ body {
 .btn-super-action:focus {
     background-color: darken($so-accent, 4%);
     border-color: darken($so-accent, 6%);
-    color: #ffffff;
+    color: #F2EFEA;
 }
 
 .btn-secondary {
@@ -273,19 +273,19 @@ body {
 }
 
 .calendar-table td {
-    border-color: rgba(0, 0, 0, 0.03);
+    border-color: rgba(28, 28, 30, 0.03);
     padding: 0.45rem 0.25rem;
 }
 
 // Status colors within the calendar
 .calendar-full {
     background-color: $so-brand-primary !important;
-    color: #ffffff !important;
+    color: #F2EFEA !important;
 }
 
 .calendar-high {
     background-color: $so-muted-green !important;
-    color: #ffffff !important;
+    color: #F2EFEA !important;
 }
 
 .calendar-mid {
@@ -300,7 +300,7 @@ body {
 }
 
 .calendar-empty {
-    background-color: rgba(0, 0, 0, 0.01) !important;
+    background-color: rgba(28, 28, 30, 0.01) !important;
     color: $so-text-muted !important;
 }
 
@@ -324,7 +324,7 @@ body {
     height: 14px;
     border-radius: 999px;
     display: inline-block;
-    border: 1px solid rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(28, 28, 30, 0.08);
 }
 
 // Daily log view – fun habit cards & animations
@@ -356,7 +356,7 @@ body {
     display: block;
     background-color: $so-surface;
     border-radius: $card-border-radius;
-    box-shadow: 0 8px 24px rgba(19, 78, 63, 0.04);
+    box-shadow: 0 8px 24px rgba(6, 66, 62, 0.04);
     padding: 1rem 1.1rem;
     cursor: pointer;
     border: 1px solid transparent;
@@ -365,7 +365,7 @@ body {
 
 .so-habit-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 12px 32px rgba(19, 78, 63, 0.08);
+    box-shadow: 0 12px 32px rgba(6, 66, 62, 0.08);
     border-color: rgba($so-brand-primary, 0.15);
 }
 
@@ -463,6 +463,88 @@ body {
     100% { transform: scale(1); }
 }
 
+// Leaderboard podium styles
+.so-leaderboard-podium {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.so-podium-spot {
+    flex: 0 0 140px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.so-podium-card {
+    background-color: $so-surface;
+    border-radius: $card-border-radius;
+    box-shadow: 0 10px 30px rgba(28, 28, 30, 0.18);
+    padding: 0.75rem 0.75rem 0.5rem;
+    margin-bottom: 0.4rem;
+    width: 100%;
+}
+
+.so-podium-rank {
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.so-podium-name {
+    font-weight: 600;
+    margin-top: 0.25rem;
+}
+
+.so-podium-score {
+    font-size: 0.85rem;
+    color: $so-text-muted;
+}
+
+.so-podium-base {
+    width: 100%;
+    border-radius: 0.7rem 0.7rem 0 0;
+    background-color: #F2EFEA;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: #1C1C1E;
+}
+
+.so-podium-1 .so-podium-base {
+    height: 110px;
+    background-color: #facc15;
+}
+
+.so-podium-2 .so-podium-base {
+    height: 80px;
+    background-color: #F2EFEA;
+}
+
+.so-podium-3 .so-podium-base {
+    height: 60px;
+    background-color: #d97757;
+    color: #1C1C1E;
+}
+
+.so-podium-current {
+    box-shadow: 0 0 0 2px rgba($so-accent, 0.75), 0 12px 32px rgba(28, 28, 30, 0.25);
+}
+
+@media (max-width: 767.98px) {
+    .so-leaderboard-podium {
+        gap: 0.6rem;
+    }
+
+    .so-podium-spot {
+        flex: 0 0 100px;
+    }
+}
+
 // Dashboard header metric cards (total / week / today)
 .so-dashboard-metrics {
     row-gap: 1rem;
@@ -471,8 +553,8 @@ body {
 .so-metric-card {
     border: none;
     background: linear-gradient(135deg, $so-brand-primary, darken($so-brand-primary, 10%));
-    color: #ffffff;
-    box-shadow: 0 14px 35px rgba(15, 118, 110, 0.45);
+    color: #F2EFEA;
+    box-shadow: 0 14px 35px rgba(6, 66, 62, 0.45);
 }
 
 .so-metric-card .card-body {
@@ -506,7 +588,7 @@ body {
 }
 
 .so-metric-pill--total {
-    background-color: rgba(255, 255, 255, 0.16);
+    background-color: rgba(242, 239, 234, 0.4);
 }
 
 .so-metric-pill--week {
@@ -514,7 +596,7 @@ body {
 }
 
 .so-metric-pill--today {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(242, 239, 234, 0.5);
 }
 
 // Calendar responsiveness on small screens

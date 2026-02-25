@@ -1,15 +1,18 @@
 // SuperOffice brand design tokens and Bootstrap variable overrides
 
 // Brand palette (updated to latest SuperOffice tokens)
-$so-brand-primary: #134E3F; // Deep forest green
+// All greens consolidated to #06423E
+$so-brand-primary: #06423E; // Deep green
 $so-accent: #E8937E;        // Coral action color (CTA only)
-$so-bg-neutral: #FAF9F6;    // Warm beige app background
-$so-surface: #FFFFFF;       // Card / surface white
-$so-text-dark: #212529;     // Dark charcoal text
+// All light / white surfaces consolidated to #F2EFEA
+$so-bg-neutral: #F2EFEA;    // App background
+$so-surface: #F2EFEA;       // Card / surface background
+// All dark / black text consolidated to #1C1C1E
+$so-text-dark: #1C1C1E;     // Primary text
 $so-text-muted: #6c757d;    // Bootstrap gray for muted text
 
 // Secondary / chart colors
-$so-muted-green: #7FA698;
+$so-muted-green: #06423E;
 $so-muted-orange: #F2C2A6;
 
 // Map to Bootstrap theme colors
@@ -46,5 +49,5 @@ $btn-padding-x: 1.5rem;
 $card-bg: $so-surface;
 $card-border-color: transparent;
 $card-border-width: 0;
-$card-box-shadow: 0 4px 24px rgba(19, 78, 63, 0.08);
+$card-box-shadow: 0 4px 24px rgba(6, 66, 62, 0.08);
 

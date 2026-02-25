@@ -4,41 +4,106 @@
 
 {% block body %}
 <div class="container my-4">
-    <div class="card">
+    <div class="card mb-4">
         <div class="card-header">
             <h3 class="mb-0">🏆 Leaderboard</h3>
         </div>
         <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th>Rank</th>
-                            <th>Participant Name</th>
-                            <th>Total Points</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for entry in leaderboard %}
-                            <tr {% if entry.user.id == app.user.id %}class="table-primary"{% endif %}>
-                                <td>
-                                    <strong>#{{ loop.index }}</strong>
-                                    {% if loop.index == 1 %}🥇{% elseif loop.index == 2 %}🥈{% elseif loop.index == 3 %}🥉{% endif %}
-                                </td>
-                                <td>
-                                    {{ entry.user.name }}
-                                    {% if entry.user.id == app.user.id %}<span class="badge bg-primary">You</span>{% endif %}
-                                </td>
-                                <td><strong>{{ entry.totalScore }}</strong></td>
-                            </tr>
-                        {% else %}
-                            <tr>
-                                <td colspan="3" class="text-center text-muted">No participants yet. Be the first!</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+            {% if leaderboard is empty %}
+                <p class="text-center text-muted mb-0">No participants yet. Be the first!</p>
+            {% else %}
+                {% set topThree = leaderboard|slice(0, 3) %}
+                {% set others = leaderboard|slice(3) %}
+
+                <div class="so-leaderboard-podium">
+                    {# Order: 2nd (left), 1st (center), 3rd (right) #}
+                    {% set first = topThree[0] ?? null %}
+                    {% set second = topThree[1] ?? null %}
+                    {% set third = topThree[2] ?? null %}
+
+                    {% if second %}
+                        {% set entry = second %}
+                        {% set pos = 2 %}
+                        {% set user = entry.user %}
+                        {% set isYou = user.id == app.user.id %}
+                        <div class="so-podium-spot so-podium-2">
+                            <div class="so-podium-card {% if isYou %}so-podium-current{% endif %}">
+                                <div class="so-podium-rank">🥈</div>
+                                <div class="so-podium-name">
+                                    {{ user.name }}
+                                    {% if isYou %}<span class="badge bg-primary ms-1">You</span>{% endif %}
+                                </div>
+                                <div class="so-podium-score">{{ entry.totalScore }} pts</div>
+                            </div>
+                            <div class="so-podium-base">2</div>
+                        </div>
+                    {% endif %}
+
+                    {% if first %}
+                        {% set entry = first %}
+                        {% set pos = 1 %}
+                        {% set user = entry.user %}
+                        {% set isYou = user.id == app.user.id %}
+                        <div class="so-podium-spot so-podium-1">
+                            <div class="so-podium-card {% if isYou %}so-podium-current{% endif %}">
+                                <div class="so-podium-rank">🥇</div>
+                                <div class="so-podium-name">
+                                    {{ user.name }}
+                                    {% if isYou %}<span class="badge bg-primary ms-1">You</span>{% endif %}
+                                </div>
+                                <div class="so-podium-score">{{ entry.totalScore }} pts</div>
+                            </div>
+                            <div class="so-podium-base">1</div>
+                        </div>
+                    {% endif %}
+
+                    {% if third %}
+                        {% set entry = third %}
+                        {% set pos = 3 %}
+                        {% set user = entry.user %}
+                        {% set isYou = user.id == app.user.id %}
+                        <div class="so-podium-spot so-podium-3">
+                            <div class="so-podium-card {% if isYou %}so-podium-current{% endif %}">
+                                <div class="so-podium-rank">🥉</div>
+                                <div class="so-podium-name">
+                                    {{ user.name }}
+                                    {% if isYou %}<span class="badge bg-primary ms-1">You</span>{% endif %}
+                                </div>
+                                <div class="so-podium-score">{{ entry.totalScore }} pts</div>
+                            </div>
+                            <div class="so-podium-base">3</div>
+                        </div>
+                    {% endif %}
+                </div>
+
+                {% if others is not empty %}
+                    <h5 class="mt-4 mb-2">The rest of the pack</h5>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th style="width: 90px;">Rank</th>
+                                    <th>Participant</th>
+                                    <th style="width: 140px;">Total points</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for entry in others %}
+                                    {% set index = loop.index + 3 %}
+                                    <tr {% if entry.user.id == app.user.id %}class="table-primary"{% endif %}>
+                                        <td>#{{ index }}</td>
+                                        <td>
+                                            {{ entry.user.name }}
+                                            {% if entry.user.id == app.user.id %}<span class="badge bg-primary">You</span>{% endif %}
+                                        </td>
+                                        <td><strong>{{ entry.totalScore }}</strong></td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% endif %}
+            {% endif %}
         </div>
     </div>
 </div>
