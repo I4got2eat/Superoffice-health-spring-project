@@ -2,6 +2,26 @@ doctrine:
     dbal:
         url: '%env(resolve:DATABASE_URL)%'
 
+        # 1. Tell Doctrine to IGNORE Supabase system tables (auth, storage, etc.)
+        # This regex ensures Doctrine only looks at your "public" tables.
+        schema_filter: ~^(?!auth\.|cron\.|graphql\.|history\.|pgbouncer\.|pgsodium\.|pgtap\.|realtime\.|storage\.|vault\.|extensions\.)~
+        
+        # 2. Map all Supabase internal types to 'string' so it doesn't crash
+        mapping_types:
+            # Arrays
+            _text: text
+            
+            # Auth & System Enums (The one crashing you now is code_challenge_method)
+            code_challenge_method: string
+            factor_status: string
+            factor_type: string
+            aal_level: string
+            key_status: string
+            key_type: string
+            action: string
+            equality_op: string
+            one_time_token_type: string
+
         # IMPORTANT: You MUST configure your server version,
         # either here or in the DATABASE_URL env var (see .env file)
         #server_version: '16'

@@ -251,6 +251,15 @@ body {
     border-color: $so-brand-primary;
 }
 
+// Make daily habit checkboxes more visible even when unchecked
+.so-habit-checkbox.form-check-input {
+    width: 1.2rem;
+    height: 1.2rem;
+    border-width: 2px;
+    border-color: darken($so-brand-primary, 10%);
+    box-shadow: 0 0 0 1px rgba($so-brand-primary, 0.35);
+}
+
 .form-check-input:focus {
     box-shadow: 0 0 0 0.2rem rgba($so-brand-primary, 0.25);
     border-color: $so-brand-primary;
