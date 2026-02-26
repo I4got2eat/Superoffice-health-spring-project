@@ -117,8 +117,9 @@
                 {% set lastDay = firstDay|date_modify('last day of this month') %}
                 {% set startDate = challengeService.startDateProperty %}
                 {% set endDate = challengeService.endDateProperty %}
-                    
+
                 {% set todayKey = 'now'|date('Y-m-d') %}
+                {% set yesterdayKey = 'now'|date_modify('-1 day')|date('Y-m-d') %}
 
                 <table class="table table-bordered calendar-table mb-0">
                         <thead>
@@ -171,10 +172,12 @@
                                                     {% set cellClass = 'calendar-empty' %}
                                                 {% endif %}
                                             {% endif %}
-                                            
-                                            <td class="{{ cellClass }} calendar-day" 
-                                                data-date="{{ dayKey }}"
-                                                style="cursor: pointer; min-width: 80px; height: 60px; vertical-align: middle; text-align: center;">
+
+                                            {% set isEditable = (dayKey == yesterdayKey) %}
+
+                                            <td class="{{ cellClass }} {{ isEditable ? 'calendar-day' : '' }}"
+                                                {% if isEditable %}data-date="{{ dayKey }}"{% endif %}
+                                                style="{{ isEditable ? 'cursor: pointer;' : '' }} min-width: 80px; height: 60px; vertical-align: middle; text-align: center;">
                                                 <div>{{ dayDate|date('j') }}</div>
                                                 <small>{{ points }}/4</small>
                                             </td>

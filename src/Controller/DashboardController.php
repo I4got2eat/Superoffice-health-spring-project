@@ -141,6 +141,13 @@ class DashboardController extends AbstractController
             throw $this->createNotFoundException('Invalid date format');
         }
 
+        // Only allow editing for the day before today
+        $today = new \DateTimeImmutable('today');
+        $yesterday = $today->modify('-1 day');
+        if ($logDate->format('Y-m-d') !== $yesterday->format('Y-m-d')) {
+            throw $this->createNotFoundException('Date is not editable');
+        }
+
         // Check if date is within challenge period
         if (!$challengeService->isDateInChallenge($logDate)) {
             throw $this->createNotFoundException('Date is outside challenge period');
