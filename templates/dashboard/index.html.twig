@@ -36,53 +36,116 @@
     </div>
 
     {# Weekly Tracker Section #}
-    <div class="card mb-4">
-        <div class="card-header">
-            <h4 class="mb-0">Weekly Tracker</h4>
+    <div class="row mb-4 g-3 g-lg-4">
+        <div class="col-lg-6">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h4 class="mb-0">Weekly Tracker</h4>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted small mb-3">
+                        Once you mark a weekly task as done, it stays done.
+                        You can come back later to add the other task, but you can’t untick what you’ve already completed.
+                    </p>
+                    <form id="weekly-log-form"
+                          method="post"
+                          action="{{ path('app_dashboard_weekly_log') }}"
+                          data-is-admin="{{ is_granted('ROLE_ADMIN') ? '1' : '0' }}">
+                        <div class="form-check mb-2">
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   name="activity_done"
+                                   id="activity_done"
+                                   value="1"
+                                   {{ currentWeekLog.activityDone ? 'checked' : '' }}
+                                   data-initial="{{ currentWeekLog.activityDone ? '1' : '0' }}">
+                            <label class="form-check-label fw-semibold" for="activity_done">
+                                150 min Activity
+                            </label>
+                        </div>
+                        <div class="text-muted small mb-3 ms-4">
+                            Tick this when you’ve reached 150 minutes of movement this week.
+                        </div>
+
+                        <div class="form-check mb-2">
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   name="social_done"
+                                   id="social_done"
+                                   value="1"
+                                   {{ currentWeekLog.socialDone ? 'checked' : '' }}
+                                   data-initial="{{ currentWeekLog.socialDone ? '1' : '0' }}">
+                            <label class="form-check-label fw-semibold" for="social_done">
+                                4 Social Interactions
+                            </label>
+                        </div>
+                        <div class="text-muted small mb-3 ms-4">
+                            Tick this when you’ve had at least four meaningful check‑ins this week.
+                        </div>
+
+                        <button type="submit" class="btn btn-super-action">Save this week</button>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div class="card-body">
-            <p class="text-muted small mb-3">
-                Once you mark a weekly task as done, it stays done.
-                You can come back later to add the other task, but you can’t untick what you’ve already completed.
-            </p>
-            <form id="weekly-log-form"
-                  method="post"
-                  action="{{ path('app_dashboard_weekly_log') }}"
-                  data-is-admin="{{ is_granted('ROLE_ADMIN') ? '1' : '0' }}">
-                <div class="form-check mb-2">
-                    <input class="form-check-input"
-                           type="checkbox"
-                           name="activity_done"
-                           id="activity_done"
-                           value="1"
-                           {{ currentWeekLog.activityDone ? 'checked' : '' }}
-                           data-initial="{{ currentWeekLog.activityDone ? '1' : '0' }}">
-                    <label class="form-check-label fw-semibold" for="activity_done">
-                        150 min Activity
-                    </label>
-                </div>
-                <div class="text-muted small mb-3 ms-4">
-                    Tick this when you’ve reached 150 minutes of movement this week.
-                </div>
 
-                <div class="form-check mb-2">
-                    <input class="form-check-input"
-                           type="checkbox"
-                           name="social_done"
-                           id="social_done"
-                           value="1"
-                           {{ currentWeekLog.socialDone ? 'checked' : '' }}
-                           data-initial="{{ currentWeekLog.socialDone ? '1' : '0' }}">
-                    <label class="form-check-label fw-semibold" for="social_done">
-                        4 Social Interactions
-                    </label>
+        <div class="col-lg-6">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h4 class="mb-0">Past Weeks</h4>
                 </div>
-                <div class="text-muted small mb-3 ms-4">
-                    Tick this when you’ve had at least four meaningful check‑ins this week.
+                <div class="card-body">
+                    {% if weeklyHistory is empty %}
+                        <p class="text-muted small mb-0">
+                            Your weekly tracker history will appear here once you’ve completed at least one week.
+                        </p>
+                    {% else %}
+                        <p class="text-muted small">
+                            A read‑only overview of your recent weeks in this challenge.
+                        </p>
+                        <div class="table-responsive">
+                            <table class="table table-sm align-middle mb-0">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Week</th>
+                                    <th scope="col" class="text-center">150 min Activity</th>
+                                    <th scope="col" class="text-center">4 Social Interactions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for item in weeklyHistory %}
+                                    {% set week = item.log %}
+                                    <tr>
+                                        <td>
+                                            <span class="fw-semibold">
+                                                Week {{ item.number }} ({{ item.start|date('d M') }} – {{ item.end|date('d M') }})
+                                            </span>
+                                            <span class="text-muted small d-block">
+                                                Starts {{ item.start|date('d M Y') }}
+                                            </span>
+                                        </td>
+                                        <td class="text-center">
+                                            {% if week.activityDone %}
+                                                <span class="badge bg-success rounded-pill">Done</span>
+                                            {% else %}
+                                                <span class="badge bg-light text-muted rounded-pill">Not done</span>
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-center">
+                                            {% if week.socialDone %}
+                                                <span class="badge bg-success rounded-pill">Done</span>
+                                            {% else %}
+                                                <span class="badge bg-light text-muted rounded-pill">Not done</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% endif %}
                 </div>
-
-                <button type="submit" class="btn btn-super-action">Save this week</button>
-            </form>
+            </div>
         </div>
     </div>
 
@@ -226,6 +289,42 @@
                 </div>
             </div>
         </div>
+</div>
+</div>
+
+{# Weekly tracker modals #}
+<div class="modal fade" id="weeklyLockModal" tabindex="-1" aria-labelledby="weeklyLockModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="weeklyLockModalLabel">Weekly tracker locked</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                You can add weekly tasks, but you can’t uncheck something you have already completed.
+                If this is a mistake, please ask an admin to update it for you.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="weeklyConfirmModal" tabindex="-1" aria-labelledby="weeklyConfirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="weeklyConfirmModalLabel">Save this week?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="weeklyConfirmModalBody">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-super-action" id="weeklyConfirmModalConfirm">Save week</button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -244,13 +343,21 @@ document.addEventListener('DOMContentLoaded', function() {
         const activityCb = document.getElementById('activity_done');
         const socialCb = document.getElementById('social_done');
 
+        const lockModalEl = document.getElementById('weeklyLockModal');
+        const confirmModalEl = document.getElementById('weeklyConfirmModal');
+        const confirmModalBody = document.getElementById('weeklyConfirmModalBody');
+        const confirmModalConfirmBtn = document.getElementById('weeklyConfirmModalConfirm');
+
+        const lockModal = lockModalEl && window.bootstrap ? new bootstrap.Modal(lockModalEl) : null;
+        const confirmModal = confirmModalEl && window.bootstrap ? new bootstrap.Modal(confirmModalEl) : null;
+
         function attachLockBehavior(cb) {
-            if (!cb || isAdmin) return;
+            if (!cb || isAdmin || !lockModal) return;
             const initial = cb.dataset.initial === '1';
             cb.addEventListener('change', function () {
                 if (initial && !cb.checked) {
                     cb.checked = true;
-                    alert('You can add weekly tasks, but you can’t uncheck something you have already completed. If this is a mistake, ask an admin to update it.');
+                    lockModal.show();
                 }
             });
         }
@@ -258,9 +365,40 @@ document.addEventListener('DOMContentLoaded', function() {
         attachLockBehavior(activityCb);
         attachLockBehavior(socialCb);
 
+        const revertState = { activity: false, social: false };
+
+        if (confirmModal && confirmModalBody && confirmModalConfirmBtn) {
+            // When user confirms in the modal, mark as confirmed and submit
+            confirmModalConfirmBtn.addEventListener('click', function () {
+                confirmModalConfirmBtn.dataset.confirmed = '1';
+                confirmModal.hide();
+                weeklyForm.submit();
+            });
+
+            // When modal closes without confirmation, revert checkboxes to initial state
+            confirmModalEl.addEventListener('hidden.bs.modal', function () {
+                if (confirmModalConfirmBtn.dataset.confirmed !== '1') {
+                    const initialActivity = activityCb ? activityCb.dataset.initial === '1' : false;
+                    const initialSocial = socialCb ? socialCb.dataset.initial === '1' : false;
+
+                    if (revertState.activity && activityCb) {
+                        activityCb.checked = initialActivity;
+                    }
+                    if (revertState.social && socialCb) {
+                        socialCb.checked = initialSocial;
+                    }
+                }
+
+                // reset state
+                confirmModalConfirmBtn.dataset.confirmed = '';
+                revertState.activity = false;
+                revertState.social = false;
+            });
+        }
+
         weeklyForm.addEventListener('submit', function (e) {
-            if (isAdmin) {
-                return; // admins can save directly
+            if (isAdmin || !confirmModal || !confirmModalBody || !confirmModalConfirmBtn) {
+                return; // admins can save directly or if modal is unavailable
             }
 
             const initialActivity = activityCb ? activityCb.dataset.initial === '1' : false;
@@ -277,18 +415,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
             e.preventDefault();
 
-            let message = 'You are about to save this week as:\n\n';
+            // we only want to revert newly-checked boxes if user cancels
+            revertState.activity = becameActivityDone;
+            revertState.social = becameSocialDone;
+
+            let html = '<p>You are about to save this week as:</p><ul>';
             if (newActivity) {
-                message += '• 150 min Activity: done\n';
+                html += '<li><strong>150 min Activity</strong>: done</li>';
             }
             if (newSocial) {
-                message += '• 4 Social Interactions: done\n';
+                html += '<li><strong>4 Social Interactions</strong>: done</li>';
             }
-            message += '\nThis cannot be undone later (you can only add more). Continue?';
+            html += '</ul><p class="mb-0">This cannot be undone later (you can only add more). Do you want to continue?</p>';
 
-            if (confirm(message)) {
-                weeklyForm.submit();
-            }
+            confirmModalBody.innerHTML = html;
+            confirmModal.show();
         });
     }
 });

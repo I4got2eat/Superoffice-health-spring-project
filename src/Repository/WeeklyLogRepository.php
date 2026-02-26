@@ -81,4 +81,35 @@ class WeeklyLogRepository extends ServiceEntityRepository
 
         return $log;
     }
+
+    /**
+     * Get recent weeks for a user (newest first)
+     *
+     * @return WeeklyLog[]
+     */
+    public function findRecentWeeksForUser(User $user, int $limit = 8): array
+    {
+        return $this->createQueryBuilder('w')
+            ->andWhere('w.user = :user')
+            ->setParameter('user', $user)
+            ->orderBy('w.weekStartDate', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Get all weeks for a user in chronological order (oldest first)
+     *
+     * @return WeeklyLog[]
+     */
+    public function findAllWeeksForUser(User $user): array
+    {
+        return $this->createQueryBuilder('w')
+            ->andWhere('w.user = :user')
+            ->setParameter('user', $user)
+            ->orderBy('w.weekStartDate', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }

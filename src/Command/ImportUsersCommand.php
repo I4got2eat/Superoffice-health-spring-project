@@ -12,7 +12,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
     name: 'app:import-users',
-    description: 'Imports users from employees.csv with plain DOB passwords',
+    description: 'Imports users from employees.csv into the User table',
 )]
 class ImportUsersCommand extends Command
 {
@@ -25,65 +25,85 @@ class ImportUsersCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $csvFile = 'employees.csv'; // Must be in project root folder
+        
+        // Ensure employees.csv is in the project root folder (same level as composer.json)
+        $csvFile = 'employees.csv'; 
 
         if (!file_exists($csvFile)) {
-            $io->error('File employees.csv not found!');
+            $io->error('File employees.csv not found! Please place it in the project root.');
             return Command::FAILURE;
         }
 
         if (($handle = fopen($csvFile, "r")) !== false) {
             $row = 0;
+            $importedCount = 0;
+            
+            $io->title('Starting Import...');
+
             while (($data = fgetcsv($handle, 1000, ",")) !== false) {
-                // 1. Skip Header Row (Assumes first row has "Name" or "Email" in it)
-                if ($row === 0 && !is_numeric(substr($data[2], 0, 1))) { 
-                    $row++;
+                // CSV Structure based on your input:
+                // [0] First Name (Johan)
+                // [1] Last Name (Schroer)
+                // [2] DOB (7/31/1976)
+                // [3] Email (johan.schror@...)
+
+                $firstName = trim($data[0] ?? '');
+                $lastName  = trim($data[1] ?? '');
+                $rawDob    = trim($data[2] ?? '');
+                $email     = trim($data[3] ?? '');
+
+                // 1. Validation: Skip rows without an '@' symbol in the email column
+                if (!str_contains($email, '@')) {
                     continue; 
                 }
 
-                // 2. Map Columns (Adjust numbers if your excel is different)
-                // [0] Name, [1] Last Name, [2] DOB (7/31/1976), [3] Email
-                $firstName = trim($data[0]);
-                $lastName = trim($data[1]);
-                $rawDob = trim($data[2]); // "7/31/1976"
-                $email = trim($data[3]);
-
-                if (!$email) continue; // Skip empty rows
-
-                // 3. Convert Date Format: "7/31/1976" -> "19760731"
+                // 2. Format the Date: "7/31/1976" -> "19760731"
                 try {
-                    $dateObj = new \DateTime($rawDob); 
-                    $passwordDOB = $dateObj->format('Ymd'); // Becomes 19760731
+                    $dateObj = new \DateTime($rawDob);
+                    $plainPassword = $dateObj->format('Ymd'); // Result: 19760731
                 } catch (\Exception $e) {
-                    $io->warning("Skipping $email - Bad date format: $rawDob");
+                    $io->warning("Skipping $firstName $lastName - Invalid Date format: $rawDob");
                     continue;
                 }
 
-                // 4. Create User
-                // Check if exists
-                $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
-                if (!$user) {
-                    $user = new User();
-                    $user->setEmail($email);
+                // 3. Check for duplicates in the Database
+                // We use 'workEmail' because your Entity has it defined as unique
+                $existingUser = $this->entityManager->getRepository(User::class)->findOneBy(['workEmail' => $email]);
+                
+                if ($existingUser) {
+                    $io->writeln("Skipping existing user: $email");
+                    continue;
                 }
 
-                // Set Name (Assuming you have a setName or setFirstName)
-                // $user->setName($firstName . ' ' . $lastName); 
+                // 4. Create and Populate the User Entity
+                $user = new User();
 
-                // 5. SET PLAIN TEXT PASSWORD (No Hashing)
-                $user->setPassword($passwordDOB);
-                
-                $user->setRoles(['ROLE_USER']);
+                // Merge First + Last Name into 'name'
+                $fullName = $firstName . ' ' . $lastName;
+                $user->setName($fullName);
 
+                // Set Email (Your entity setter automatically lowercases it)
+                $user->setWorkEmail($email);
+
+                // Set Password (Plain text date: 19760731)
+                $user->setLoginPassword($plainPassword);
+
+                // Ensure they are not Admin
+                $user->setIsAdmin(false);
+
+                // Persist to DB queue
                 $this->entityManager->persist($user);
-                $io->writeln("Imported: $email | Pass: $passwordDOB");
-                
-                $row++;
+                $importedCount++;
+
+                $io->writeln("Imported: $fullName | Pass: $plainPassword");
             }
+
             fclose($handle);
-            $this->entityManager->flush();
             
-            $io->success("Imported $row users successfully!");
+            // Execute the SQL to save to Supabase
+            $this->entityManager->flush();
+
+            $io->success("Success! Imported $importedCount users into the database.");
             return Command::SUCCESS;
         }
 

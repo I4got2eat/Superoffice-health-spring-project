@@ -39,6 +39,35 @@ class DashboardController extends AbstractController
         $currentWeekLog = $weeklyLogRepository->getOrCreateForCurrentWeek($user);
         $entityManager->flush();
 
+        // Get weekly logs for history view (read-only)
+        $recentWeeklyLogs = $weeklyLogRepository->findRecentWeeksForUser($user, 8);
+        $allWeeklyLogs = $weeklyLogRepository->findAllWeeksForUser($user);
+
+        // Map each week start date to a sequential "Week N" number based on
+        // chronological order from the first ever week for this user.
+        $weekNumberByDate = [];
+        $counter = 1;
+        foreach ($allWeeklyLogs as $weekLog) {
+            $key = $weekLog->getWeekStartDate()->format('Y-m-d');
+            if (!\array_key_exists($key, $weekNumberByDate)) {
+                $weekNumberByDate[$key] = $counter++;
+            }
+        }
+
+        // Build history items with number and date range for the template
+        $weeklyHistory = [];
+        foreach ($recentWeeklyLogs as $weekLog) {
+            $start = $weekLog->getWeekStartDate();
+            $end = (clone $start)->modify('+6 days');
+            $key = $start->format('Y-m-d');
+            $weeklyHistory[] = [
+                'log' => $weekLog,
+                'number' => $weekNumberByDate[$key] ?? null,
+                'start' => $start,
+                'end' => $end,
+            ];
+        }
+
         // Get daily logs for the challenge period
         $startDate = $challengeService->getStartDate();
         $endDate = $challengeService->getEndDate();
@@ -79,6 +108,8 @@ class DashboardController extends AbstractController
             'currentWeekScore' => $currentWeekScore,
             'todayScore' => $todayScore,
             'currentWeekLog' => $currentWeekLog,
+            'recentWeeklyLogs' => $recentWeeklyLogs,
+            'weeklyHistory' => $weeklyHistory,
             'dailyLogsMap' => $dailyLogsMap,
             'months' => $months,
             'selectedMonth' => $selectedMonth,
