@@ -750,8 +750,28 @@ body {
         margin-bottom: 0.5rem;
     }
 
+    .so-dashboard-metrics {
+        row-gap: 0.5rem;
+        margin-bottom: 1rem !important;
+    }
+
     .so-metric-card .card-body {
         align-items: center;
         text-align: center;
+        padding: 0.6rem 0.75rem;
+    }
+
+    .so-metric-label {
+        font-size: 0.7rem;
+    }
+
+    .so-metric-value {
+        font-size: 1.35rem;
+    }
+
+    .so-metric-pill {
+        margin-top: 0.2rem;
+        padding: 0.1rem 0.45rem;
+        font-size: 0.6rem;
     }
 }
