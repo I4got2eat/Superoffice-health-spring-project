@@ -3,12 +3,14 @@
 // Brand palette (updated to latest SuperOffice tokens)
 // All greens consolidated to #06423E
 $so-brand-primary: #06423E; // Deep green
-$so-accent: #E8937E;        // Coral action color (CTA only)
+$so-accent: #F48A6D;        // Coral action color (CTA only)
 // All light / white surfaces consolidated to #F2EFEA
-$so-bg-neutral: #F2EFEA;    // App background
-$so-surface: #F2EFEA;       // Card / surface background
-// All dark / black text consolidated to #1C1C1E
-$so-text-dark: #1C1C1E;     // Primary text
+$so-white: #F2EFEA;         // Design system "white" (cream)
+$so-bg-neutral: $so-white; // App background
+$so-surface: $so-white;    // Card / surface background
+// All dark / black consolidated to #1C1C1E
+$so-black: #1C1C1E;         // Design system "black" (dark)
+$so-text-dark: $so-black;   // Primary text
 $so-text-muted: #6c757d;    // Bootstrap gray for muted text
 
 // Secondary / chart colors

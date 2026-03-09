@@ -20,7 +20,7 @@ body {
 .so-sidebar {
     width: 260px;
     background-color: $so-brand-primary;
-    color: #F2EFEA;
+    color: $so-white;
     display: flex;
     flex-direction: column;
     padding: 1.5rem 1.25rem;
@@ -36,7 +36,7 @@ body {
 .so-sidebar-logo {
     font-weight: 700;
     font-size: 1.25rem;
-    color: #F2EFEA;
+    color: $so-white;
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -64,7 +64,7 @@ body {
     align-items: center;
     padding: 0.6rem 0.9rem;
     border-radius: 999px;
-    color: #F2EFEA;
+    color: $so-white;
     text-decoration: none;
     font-weight: 500;
     font-size: 0.95rem;
@@ -100,7 +100,7 @@ body {
 }
 
 .so-sidebar-logout-link:hover {
-    color: #F2EFEA;
+    color: $so-white;
 }
 
 .so-sidebar-toggle {
@@ -122,7 +122,7 @@ body {
     width: 18px;
     height: 2px;
     border-radius: 999px;
-    background-color: #F2EFEA;
+    background-color: $so-white;
     transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
@@ -185,11 +185,11 @@ body {
 // Public landing hero
 .so-landing-hero {
     background-color: $so-brand-primary;
-    color: #F2EFEA;
+    color: $so-white;
 }
 
 .so-landing-hero h1 {
-    color: #F2EFEA;
+    color: $so-white;
 }
 
 .so-landing-hero p.lead {
@@ -218,7 +218,7 @@ body {
 .btn-super-action {
     background-color: $so-accent;
     border-color: $so-accent;
-    color: #F2EFEA;
+    color: $so-white;
     border-radius: 50px;
     padding-inline: 1.75rem;
     padding-block: 0.55rem;
@@ -228,7 +228,7 @@ body {
 .btn-super-action:focus {
     background-color: darken($so-accent, 4%);
     border-color: darken($so-accent, 6%);
-    color: #F2EFEA;
+    color: $so-white;
 }
 
 .btn-secondary {
@@ -288,12 +288,12 @@ body {
 // Status colors within the calendar
 .calendar-full {
     background-color: $so-brand-primary !important;
-    color: #F2EFEA !important;
+    color: $so-white !important;
 }
 
 .calendar-high {
     background-color: $so-muted-green !important;
-    color: #F2EFEA !important;
+    color: $so-white !important;
 }
 
 .calendar-mid {
@@ -515,12 +515,12 @@ body {
 .so-podium-base {
     width: 100%;
     border-radius: 0.7rem 0.7rem 0 0;
-    background-color: #F2EFEA;
+    background-color: $so-white;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 700;
-    color: #1C1C1E;
+    color: $so-text-dark;
 }
 
 .so-podium-1 .so-podium-base {
@@ -530,13 +530,13 @@ body {
 
 .so-podium-2 .so-podium-base {
     height: 80px;
-    background-color: #F2EFEA;
+    background-color: $so-white;
 }
 
 .so-podium-3 .so-podium-base {
     height: 60px;
     background-color: #d97757;
-    color: #1C1C1E;
+    color: $so-text-dark;
 }
 
 .so-podium-current {
@@ -561,7 +561,7 @@ body {
 .so-metric-card {
     border: none;
     background: linear-gradient(135deg, $so-brand-primary, darken($so-brand-primary, 10%));
-    color: #F2EFEA;
+    color: $so-white;
     box-shadow: 0 14px 35px rgba(6, 66, 62, 0.45);
 }
 
