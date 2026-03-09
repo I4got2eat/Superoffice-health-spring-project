@@ -19,6 +19,11 @@ body {
 
 .so-sidebar {
     width: 260px;
+    flex-shrink: 0;
+    align-self: flex-start;
+    height: 100vh;
+    position: sticky;
+    top: 0;
     background-color: $so-brand-primary;
     color: $so-white;
     display: flex;
@@ -149,6 +154,11 @@ body {
 
     .so-sidebar {
         width: 100%;
+        height: auto;
+        min-height: auto;
+        position: relative;
+        align-self: stretch;
+        flex-shrink: 0;
         align-items: stretch;
         padding: 0.75rem 1.25rem 0.85rem;
     }
@@ -165,6 +175,7 @@ body {
 
     .so-sidebar-nav-wrapper {
         display: none;
+        flex: none;
         padding-top: 0.35rem;
     }
 

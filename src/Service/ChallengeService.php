@@ -53,10 +53,10 @@ class ChallengeService
     public function getChallengeMonths(): array
     {
         return [
-            ['year' => 2026, 'month' => 2, 'name' => 'February'],
             ['year' => 2026, 'month' => 3, 'name' => 'March'],
             ['year' => 2026, 'month' => 4, 'name' => 'April'],
             ['year' => 2026, 'month' => 5, 'name' => 'May'],
+            ['year' => 2026, 'month' => 6, 'name' => 'June'],
         ];
     }
 }
