@@ -98,4 +98,12 @@ class NameAuthenticator extends AbstractAuthenticator
 
         return new RedirectResponse($this->urlGenerator->generate(self::LOGIN_ROUTE));
     }
+    
+    /**
+     * Called when authentication is needed, but it's not sent
+     */
+    public function start(Request $request, AuthenticationException $authException = null): Response
+    {
+        return new RedirectResponse($this->urlGenerator->generate(self::LOGIN_ROUTE));
+    }
 }
