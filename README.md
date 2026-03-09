@@ -1,6 +1,6 @@
 # Health Spring - Employee Wellness Challenge
 
-A Symfony-based monolithic web application for tracking employee wellness habits during a 3-month challenge (March 1 - May 31, 2026).
+A Symfony-based monolithic web application for tracking employee wellness habits during a 3-month challenge (March 10 - May 31, 2026).
 
 ## Features
 
