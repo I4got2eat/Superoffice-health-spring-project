@@ -236,7 +236,7 @@
                                                 {% endif %}
                                             {% endif %}
 
-                                            {% set isEditable = (dayKey == yesterdayKey) %}
+                                            {% set isEditable = (dayKey == yesterdayKey or dayKey == todayKey) %}
 
                                             <td class="{{ cellClass }} {{ isEditable ? 'calendar-day' : '' }}"
                                                 {% if isEditable %}data-date="{{ dayKey }}"{% endif %}

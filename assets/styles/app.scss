@@ -336,7 +336,7 @@ body {
 }
 
 .calendar-high {
-    background-color: $so-muted-green !important;
+    background-color: lighten($so-brand-primary, 15%) !important;
     color: $so-white !important;
 }
 
