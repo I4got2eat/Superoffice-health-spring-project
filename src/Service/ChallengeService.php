@@ -4,7 +4,7 @@ namespace App\Service;
 
 class ChallengeService
 {
-    private const START_DATE = '2026-03-09';
+    private const START_DATE = '2026-03-10';
     private const END_DATE = '2026-06-04';
 
     public function getStartDate(): \DateTimeInterface
