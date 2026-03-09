@@ -123,7 +123,9 @@ body {
     height: 2px;
     border-radius: 999px;
     background-color: $so-white;
-    transition: transform 0.2s ease, opacity 0.2s ease;
+    transition:
+        transform 0.2s ease,
+        opacity 0.2s ease;
 }
 
 .so-sidebar-toggle.is-open span:first-child {
@@ -218,20 +220,25 @@ body {
 .so-home-card {
     cursor: pointer;
     border: 1px solid transparent;
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease, border-color 0.3s ease;
-    
+    transition:
+        transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+        box-shadow 0.3s ease,
+        border-color 0.3s ease;
+
     .display-1 {
         transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         display: inline-block; // required for transforms to work on emojis reliably
     }
-    
+
     .so-home-card-cta {
         color: $so-brand-primary;
         font-weight: 600;
         font-size: 0.9rem;
         opacity: 0.7;
-        transition: opacity 0.2s ease, color 0.2s ease;
-        
+        transition:
+            opacity 0.2s ease,
+            color 0.2s ease;
+
         span {
             display: inline-block;
             transition: transform 0.2s ease;
@@ -243,15 +250,15 @@ body {
     transform: translateY(-8px) scale(1.03);
     box-shadow: 0 22px 45px rgba(6, 66, 62, 0.15);
     border-color: rgba($so-accent, 0.3);
-    
+
     .display-1 {
         transform: scale(1.25) rotate(8deg);
     }
-    
+
     .so-home-card-cta {
         opacity: 1;
         color: $so-accent;
-        
+
         span {
             transform: translateX(6px);
         }
@@ -336,7 +343,7 @@ body {
 }
 
 .calendar-high {
-    background-color: lighten($so-brand-primary, 15%) !important;
+    background-color: lighten($so-brand-primary, 4%) !important;
     color: $so-white !important;
 }
 
@@ -412,7 +419,10 @@ body {
     padding: 1rem 1.1rem;
     cursor: pointer;
     border: 1px solid transparent;
-    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease,
+        border-color 0.15s ease;
 }
 
 .so-habit-card:hover {
@@ -459,15 +469,28 @@ body {
 }
 
 @keyframes habitPulse {
-    0%   { transform: scale(1); box-shadow: 0 0 0 0 rgba($so-accent, 0.0); }
-    40%  { transform: scale(1.02); box-shadow: 0 0 0 6px rgba($so-accent, 0.25); }
-    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba($so-accent, 0.0); }
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba($so-accent, 0);
+    }
+    40% {
+        transform: scale(1.02);
+        box-shadow: 0 0 0 6px rgba($so-accent, 0.25);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba($so-accent, 0);
+    }
 }
 
 .so-celebration-banner {
     border-radius: $card-border-radius;
     padding: 0.75rem 1rem;
-    background: linear-gradient(90deg, rgba($so-brand-primary, 0.08), rgba($so-accent, 0.08));
+    background: linear-gradient(
+        90deg,
+        rgba($so-brand-primary, 0.08),
+        rgba($so-accent, 0.08)
+    );
     min-height: 2.5em; // reserve space so layout doesn't jump
 }
 
@@ -495,14 +518,29 @@ body {
 }
 
 @keyframes celebrationSoft {
-    0%   { opacity: 0; transform: translateY(4px); }
-    100% { opacity: 1; transform: translateY(0); }
+    0% {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @keyframes celebrationStrong {
-    0%   { opacity: 0; transform: translateY(8px) scale(0.96); }
-    40%  { opacity: 1; transform: translateY(0) scale(1.02); }
-    100% { opacity: 1; transform: translateY(0) scale(1); }
+    0% {
+        opacity: 0;
+        transform: translateY(8px) scale(0.96);
+    }
+    40% {
+        opacity: 1;
+        transform: translateY(0) scale(1.02);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
 .so-score-pop {
@@ -510,9 +548,15 @@ body {
 }
 
 @keyframes scorePop {
-    0%   { transform: scale(1); }
-    40%  { transform: scale(1.15); }
-    100% { transform: scale(1); }
+    0% {
+        transform: scale(1);
+    }
+    40% {
+        transform: scale(1.15);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
 
 // Leaderboard podium styles
@@ -584,7 +628,9 @@ body {
 }
 
 .so-podium-current {
-    box-shadow: 0 0 0 2px rgba($so-accent, 0.75), 0 12px 32px rgba(28, 28, 30, 0.25);
+    box-shadow:
+        0 0 0 2px rgba($so-accent, 0.75),
+        0 12px 32px rgba(28, 28, 30, 0.25);
 }
 
 @media (max-width: 767.98px) {
@@ -604,7 +650,11 @@ body {
 
 .so-metric-card {
     border: none;
-    background: linear-gradient(135deg, $so-brand-primary, darken($so-brand-primary, 10%));
+    background: linear-gradient(
+        135deg,
+        $so-brand-primary,
+        darken($so-brand-primary, 10%)
+    );
     color: $so-white;
     box-shadow: 0 14px 35px rgba(6, 66, 62, 0.45);
 }
@@ -694,4 +744,3 @@ body {
         text-align: center;
     }
 }
-
