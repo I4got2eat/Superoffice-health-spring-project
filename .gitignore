@@ -50,7 +50,6 @@ Desktop.ini
 # Environment Variables & Secrets (IMPORTANT)
 # =====================
 # Never commit API keys or local configuration overrides
-.env
 .env.local
 .env.*.local
 config/secrets.yml
