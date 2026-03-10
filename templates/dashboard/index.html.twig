@@ -64,7 +64,7 @@
                             </label>
                         </div>
                         <div class="text-muted small mb-3 ms-4">
-                            Tick this when you’ve reached 150 minutes of movement this week.
+                            Physical Activity ≥ 150 minutes of moderate-intensity physical activity per week.
                         </div>
 
                         <div class="form-check mb-2">
@@ -80,7 +80,7 @@
                             </label>
                         </div>
                         <div class="text-muted small mb-3 ms-4">
-                            Tick this when you’ve had at least four meaningful check‑ins this week.
+                            Social Connection ≥ 4 meaningful interactions per week.
                         </div>
 
                         <button type="submit" class="btn btn-super-action">Save this week</button>
@@ -236,7 +236,7 @@
                                                 {% endif %}
                                             {% endif %}
 
-                                            {% set isEditable = (dayKey == yesterdayKey) %}
+                                            {% set isEditable = (dayKey == yesterdayKey or dayKey == todayKey) %}
 
                                             <td class="{{ cellClass }} {{ isEditable ? 'calendar-day' : '' }}"
                                                 {% if isEditable %}data-date="{{ dayKey }}"{% endif %}

@@ -4,8 +4,8 @@ namespace App\Service;
 
 class ChallengeService
 {
-    private const START_DATE = '2026-02-24';
-    private const END_DATE = '2026-05-31';
+    private const START_DATE = '2026-03-10';
+    private const END_DATE = '2026-06-04';
 
     public function getStartDate(): \DateTimeInterface
     {
@@ -53,10 +53,10 @@ class ChallengeService
     public function getChallengeMonths(): array
     {
         return [
-            ['year' => 2026, 'month' => 2, 'name' => 'February'],
             ['year' => 2026, 'month' => 3, 'name' => 'March'],
             ['year' => 2026, 'month' => 4, 'name' => 'April'],
             ['year' => 2026, 'month' => 5, 'name' => 'May'],
+            ['year' => 2026, 'month' => 6, 'name' => 'June'],
         ];
     }
 }

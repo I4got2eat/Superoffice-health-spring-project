@@ -172,10 +172,12 @@ class DashboardController extends AbstractController
             throw $this->createNotFoundException('Invalid date format');
         }
 
-        // Only allow editing for the day before today
+        // Only allow editing for today and yesterday
         $today = new \DateTimeImmutable('today');
         $yesterday = $today->modify('-1 day');
-        if ($logDate->format('Y-m-d') !== $yesterday->format('Y-m-d')) {
+        
+        $logDateStr = $logDate->format('Y-m-d');
+        if ($logDateStr !== $today->format('Y-m-d') && $logDateStr !== $yesterday->format('Y-m-d')) {
             throw $this->createNotFoundException('Date is not editable');
         }
 

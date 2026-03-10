@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Health Spring — 3 Month Challenge{% endblock %}
+{% block title %}Health Spring - 3 Month Challenge{% endblock %}
 
 {% block body %}
 <section class="so-landing-hero py-5">
@@ -8,8 +8,10 @@
         {# Hero Section #}
         <div class="text-center mb-5">
             <h1 class="display-4 fw-bold mb-3">Health Spring</h1>
-            <h1 class="lead h3 mb-3">3 Month Challenge</h1>
-            <p class="lead mb-4">March 1st - May 31st, 2026</p>
+            <h1 class="lead h3 mb-3">Why does self-care often come second? We take care of work and other responsibilities, but we should put ourselves first.</h1>
+            <h1 class="lead h2 mb-3" style="font-size: 25px"> I am number one!</h1>
+            <h1 class="lead h3 mb-3 pt-4">(Almost) 3 Month Challenge</h1>
+            <p class="lead mb-4">March 10th - June 4th, 2026</p>
             <a href="{{ path('app_login') }}" class="btn btn-super-action btn-lg mt-2">Join Challenge / Login</a>
         </div>
     </div>
@@ -19,61 +21,79 @@
     {# Educational Cards #}
     <div class="row g-4 mb-5">
         <div class="col-md-4">
-            <div class="card h-100 shadow-sm" data-bs-toggle="modal" data-bs-target="#hydrationModal" style="cursor: pointer;">
-                <div class="card-body text-center">
+            <div class="card h-100 shadow-sm so-home-card" data-bs-toggle="modal" data-bs-target="#hydrationModal">
+                <div class="card-body text-center d-flex flex-column">
                     <div class="display-1 mb-3">💧</div>
                     <h5 class="card-title">Hydration</h5>
-                    <p class="card-text text-muted">Stay hydrated throughout the day</p>
+                    <p class="card-text text-muted mb-4">≥ 2 liters of water per day</p>
+                    <div class="mt-auto so-home-card-cta">
+                        Read more <span>→</span>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="col-md-4">
-            <div class="card h-100 shadow-sm" data-bs-toggle="modal" data-bs-target="#sleepModal" style="cursor: pointer;">
-                <div class="card-body text-center">
+            <div class="card h-100 shadow-sm so-home-card" data-bs-toggle="modal" data-bs-target="#sleepModal">
+                <div class="card-body text-center d-flex flex-column">
                     <div class="display-1 mb-3">😴</div>
                     <h5 class="card-title">Sleep</h5>
-                    <p class="card-text text-muted">Get quality rest every night</p>
+                    <p class="card-text text-muted mb-4">≥ 7 hours of sleep per day</p>
+                    <div class="mt-auto so-home-card-cta">
+                        Read more <span>→</span>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="col-md-4">
-            <div class="card h-100 shadow-sm" data-bs-toggle="modal" data-bs-target="#stepsModal" style="cursor: pointer;">
-                <div class="card-body text-center">
+            <div class="card h-100 shadow-sm so-home-card" data-bs-toggle="modal" data-bs-target="#stepsModal">
+                <div class="card-body text-center d-flex flex-column">
                     <div class="display-1 mb-3">🚶</div>
                     <h5 class="card-title">Steps</h5>
-                    <p class="card-text text-muted">Reach your daily step goal</p>
+                    <p class="card-text text-muted mb-4">≥ 8000 steps per day</p>
+                    <div class="mt-auto so-home-card-cta">
+                        Read more <span>→</span>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="col-md-4">
-            <div class="card h-100 shadow-sm" data-bs-toggle="modal" data-bs-target="#activityModal" style="cursor: pointer;">
-                <div class="card-body text-center">
+            <div class="card h-100 shadow-sm so-home-card" data-bs-toggle="modal" data-bs-target="#activityModal">
+                <div class="card-body text-center d-flex flex-column">
                     <div class="display-1 mb-3">🏃</div>
                     <h5 class="card-title">Physical Activity</h5>
-                    <p class="card-text text-muted">150 minutes per week</p>
+                    <p class="card-text text-muted mb-4">150 minutes per week</p>
+                    <div class="mt-auto so-home-card-cta">
+                        Read more <span>→</span>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="col-md-4">
-            <div class="card h-100 shadow-sm" data-bs-toggle="modal" data-bs-target="#nutritionModal" style="cursor: pointer;">
-                <div class="card-body text-center">
-                    <div class="display-1 mb-3">🥗</div>
-                    <h5 class="card-title">Nutrition</h5>
-                    <p class="card-text text-muted">Eat balanced, nutritious meals</p>
+            <div class="card h-100 shadow-sm so-home-card" data-bs-toggle="modal" data-bs-target="#nutritionModal">
+                <div class="card-body text-center d-flex flex-column">
+                    <div class="display-1 mb-3">🌈</div>
+                    <h5 class="card-title">Colourful Plants</h5>
+                    <p class="card-text text-muted mb-4">≥ 4 colours of different fruits and vegetables per day</p>
+                    <div class="mt-auto so-home-card-cta">
+                        Read more <span>→</span>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="col-md-4">
-            <div class="card h-100 shadow-sm" data-bs-toggle="modal" data-bs-target="#socialModal" style="cursor: pointer;">
-                <div class="card-body text-center">
+            <div class="card h-100 shadow-sm so-home-card" data-bs-toggle="modal" data-bs-target="#socialModal">
+                <div class="card-body text-center d-flex flex-column">
                     <div class="display-1 mb-3">👥</div>
                     <h5 class="card-title">Social Connection</h5>
-                    <p class="card-text text-muted">4 meaningful interactions per week</p>
+                    <p class="card-text text-muted mb-4">4 meaningful interactions per week</p>
+                    <div class="mt-auto so-home-card-cta">
+                        Read more <span>→</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -89,7 +109,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <p>Staying properly hydrated is essential for maintaining optimal health. Water helps regulate body temperature, supports digestion, and keeps your skin healthy. Aim to drink at least 8 glasses of water throughout the day to stay hydrated and energized.</p>
+                <p>Adequate hydration supports temperature regulation, circulation, digestion, and kidney function. European dietary reference values suggest approximately 2.0 L/day total water intake for women and 2.5 L/day for men, including fluids and water contained in foods under moderate conditions (European Food Safety Authority [EFSA], 2010). UK guidance commonly operationalises hydration as about 6–8 glasses of fluid daily, using pale yellow urine as a practical indicator of adequate intake (NHS, 2023). Fluid needs increase during heat exposure, prolonged physical activity, illness, and pregnancy or breastfeeding. Low fluid intake may contribute to fatigue, headaches, constipation, urinary infections, and increased kidney-stone risk in susceptible individuals (Hakam et al., 2024; Hooton et al., 2018).</p>
             </div>
         </div>
     </div>
@@ -103,7 +123,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <p>Quality sleep is crucial for physical and mental well-being. Getting 7-9 hours of restful sleep each night helps improve memory, boost immune function, and maintain emotional balance. Create a consistent sleep schedule and a relaxing bedtime routine to enhance your sleep quality.</p>
+                <p>Sleep supports cognitive performance, emotional regulation, immune function, and cardiovascular health. Adults are recommended to obtain at least 7 hours of sleep per night on a regular basis, with many individuals functioning best between approximately 7–9 hours, although needs vary (Watson et al., 2015; Centers for Disease Control and Prevention [CDC], 2024). Habitual sleep below 7 hours is associated with impaired concentration, increased accident risk, and higher rates of cardiometabolic disease. Observational studies also show a U-shaped association between sleep duration and mortality, where very long sleep may reflect underlying illness rather than cause harm itself (Cappuccio et al., 2010).</p>
             </div>
         </div>
     </div>
@@ -117,7 +137,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <p>Walking is one of the simplest and most effective forms of exercise. Aim for 10,000 steps per day to improve cardiovascular health, strengthen muscles, and boost your mood. Every step counts - take the stairs, park farther away, or take a walk during your lunch break!</p>
+                <p>There is no formal WHO or NHS step-count guideline; however, large cohort studies show progressively lower mortality risk with higher daily movement levels. Substantial benefits occur around 7,000–8,000 steps per day, with diminishing returns toward approximately 8,000–10,000 steps daily, depending on age and baseline activity (Paluch et al., 2022). Very low movement levels are associated with increased risk of cardiovascular disease, metabolic disorders, depression, and functional decline. Step counts are best interpreted as a practical proxy for overall activity rather than a strict medical requirement (Saint-Maurice et al., 2020).</p>
             </div>
         </div>
     </div>
@@ -131,7 +151,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <p>Regular physical activity is key to maintaining a healthy lifestyle. Aim for at least 150 minutes of moderate-intensity exercise per week. This can include activities like brisk walking, cycling, swimming, or dancing. Regular exercise helps reduce the risk of chronic diseases and improves mental health.</p>
+                <p>Global health guidelines recommend adults accumulate 150–300 minutes of moderate-intensity aerobic activity per week, or 75–150 minutes of vigorous activity, together with muscle-strengthening activities on at least two days weekly (World Health Organization [WHO], 2020; Bull et al., 2020). Physical inactivity is associated with increased risk of cardiovascular disease, type 2 diabetes, certain cancers, depression, and reduced functional capacity with ageing. Importantly, WHO emphasises that some activity is better than none, and benefits begin with small increases from sedentary behaviour (WHO, 2020).</p>
             </div>
         </div>
     </div>
@@ -141,11 +161,11 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">🥗 Nutrition</h5>
+                <h5 class="modal-title">🌈 Nutrition</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <p>Eating a balanced, nutritious diet provides your body with the essential nutrients it needs to function properly. Focus on whole foods, including plenty of fruits, vegetables, lean proteins, and whole grains. A healthy diet supports energy levels, immune function, and overall well-being.</p>
+                <p>Adults are encouraged to consume at least 400 g of fruits and vegetables daily (approximately five 80 g portions), which WHO and NHS guidance describe as a minimum intake associated with improved health outcomes (World Health Organization, 2026; NHS, 2023). Tracking colour variety is a behavioural strategy to support dietary diversity rather than a formal guideline target. Higher fruit and vegetable intake is associated with reduced cardiovascular disease, cancer risk, and all-cause mortality, while low intake may contribute to micronutrient deficiencies and poorer metabolic health (Aune et al., 2017; Bhupathiraju & Tucker, 2011).</p>
             </div>
         </div>
     </div>
@@ -155,11 +175,11 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">👥 Social Connection</h5>
+                <h5 class="modal-title">🤝 Social Connection</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <p>Meaningful social connections are vital for mental health and happiness. Aim for at least 4 meaningful social interactions per week - whether it's a coffee with a colleague, a phone call with a friend, or participating in a group activity. Strong social bonds reduce stress and increase feelings of belonging.</p>
+                <p>Loneliness and social isolation are increasingly recognised as significant public health concerns (World Health Organization, 2025). Large meta-analyses show that stronger social relationships are associated with improved survival, while lower levels of connection are linked with increased risks of depression, cardiovascular disease, cognitive decline, and early mortality (Holt-Lunstad et al., 2010; Holt-Lunstad et al., 2015). There is no universal evidence-based number of interactions required each week. For this challenge, the operational goal is to have at least four meaningful social interactions per week, such as supportive conversations or shared activities lasting approximately 10 minutes or longer.</p>
             </div>
         </div>
     </div>
