@@ -719,26 +719,78 @@ body {
 
 @media (max-width: 767.98px) {
     .so-main {
-        padding: 1.25rem 1rem;
+        padding: 0.75rem 0.85rem;
+    }
+
+    .so-daily-page {
+        margin-top: 0.25rem !important;
+        margin-bottom: 0.85rem !important;
+    }
+
+    .so-daily-row {
+        margin-inline: 0;
+    }
+
+    .so-daily-card {
+        border-radius: $card-border-radius;
+        box-shadow: 0 8px 18px rgba(6, 66, 62, 0.08);
+    }
+
+    #so-daily-celebration {
+        margin-inline: 0.1rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .so-celebration-content {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+
+    .so-celebration-text {
+        font-size: 0.9rem;
     }
 
     .so-daily-card .card-header {
         padding-inline: 1rem;
-        padding-top: 1rem;
-        padding-bottom: 0.75rem;
+        padding-top: 0.6rem;
+        padding-bottom: 0.5rem;
+    }
+
+    .so-daily-body {
+        padding-top: 0.7rem;
+        padding-bottom: 0.8rem;
     }
 
     .so-daily-score {
-        margin-top: 0.5rem;
+        margin-top: 0.4rem;
         align-self: flex-start;
+    }
+
+    .so-daily-grid {
+        row-gap: 0.6rem;
     }
 
     .so-habit-card {
         padding: 0.9rem 0.95rem;
+        box-shadow: 0 4px 12px rgba(6, 66, 62, 0.05);
     }
 
     .so-habit-header {
         align-items: flex-start;
+        gap: 0.6rem;
+    }
+
+    .so-habit-title {
+        font-size: 0.95rem;
+    }
+
+    .so-habit-tagline {
+        font-size: 0.8rem;
+    }
+
+    .so-habit-detail {
+        font-size: 0.8rem;
+        margin-bottom: 0;
     }
 
     .calendar-table {

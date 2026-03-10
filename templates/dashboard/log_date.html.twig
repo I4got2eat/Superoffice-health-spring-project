@@ -3,8 +3,8 @@
 {% block title %}Log Daily Habits - Health Spring{% endblock %}
 
 {% block body %}
-<div class="container my-4">
-    <div class="row justify-content-center">
+<div class="container my-4 so-daily-page">
+    <div class="row justify-content-center so-daily-row">
         <div class="col-lg-8">
             <div id="so-daily-celebration" class="so-celebration-banner so-celebration-hidden mb-3">
                 <div class="so-celebration-content">
@@ -27,9 +27,9 @@
                         <span class="so-daily-score-caption">/ 4 today</span>
                     </div>
                 </div>
-                <div class="card-body">
+                <div class="card-body so-daily-body">
                     <form id="daily-log-form" method="post" action="{{ path('app_dashboard_log_date', {'date': date|date('Y-m-d')}) }}">
-                        <div class="row g-3">
+                        <div class="row g-3 so-daily-grid">
                             <div class="col-md-6">
                                 <label class="so-habit-card">
                                     <div class="so-habit-header">
@@ -127,9 +127,11 @@
                             </div>
                         </div>
 
-                        <div class="d-flex justify-content-between align-items-center mt-4">
-                            <a href="{{ path('app_dashboard') }}" class="btn btn-secondary">Back to dashboard</a>
-                            <button type="submit" class="btn btn-super-action">
+                        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-stretch align-items-sm-center gap-2 mt-4">
+                            <a href="{{ path('app_dashboard') }}" class="btn btn-secondary w-100 w-sm-auto">
+                                Back to dashboard
+                            </a>
+                            <button type="submit" class="btn btn-super-action w-100 w-sm-auto">
                                 Save today’s progress
                             </button>
                         </div>
