@@ -1,7 +1,7 @@
 doctrine:
     dbal:
         url: '%env(resolve:DATABASE_URL)%'
-
+        server_version: '15'
         # 1. Tell Doctrine to IGNORE Supabase system tables (auth, storage, etc.)
         # This regex ensures Doctrine only looks at your "public" tables.
         schema_filter: ~^(?!auth\.|cron\.|graphql\.|history\.|pgbouncer\.|pgsodium\.|pgtap\.|realtime\.|storage\.|vault\.|extensions\.)~
